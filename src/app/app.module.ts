@@ -6,11 +6,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Routes, RouterModule } from '@angular/router';
 
+import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 
 const routes: Routes = [
   //{ path: '', component: exampleComponent }
+  // login, profile, game, ...
 ];
 
 @NgModule({
