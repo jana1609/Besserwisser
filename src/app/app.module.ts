@@ -1,30 +1,37 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { Routes, RouterModule } from '@angular/router';
 
-import { FlexLayoutModule } from '@angular/flex-layout';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
+import { NgModule } from '@angular/core';
+import { MaterialModule } from './material.module';
+import {FormsModule} from '@angular/forms';
+
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 const routes: Routes = [
-  //{ path: '', component: exampleComponent }
+  { path: '', component: LoginComponent },
+  { path: 'register', component: RegisterComponent},
+  { path: 'login', component: LoginComponent}
   // login, profile, game, ...
 ];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes, {useHash: true}),
-    MatToolbarModule,
-    MatIconModule
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
