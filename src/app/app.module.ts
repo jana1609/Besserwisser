@@ -9,15 +9,18 @@ import { Routes, RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import { GameComponent } from './game/game.component';
 
 const routes: Routes = [
+  {path: 'game', component: GameComponent},
   //{ path: '', component: exampleComponent }
   // login, profile, game, ...
 ];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,
