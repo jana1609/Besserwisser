@@ -10,7 +10,8 @@ import {FormsModule} from '@angular/forms';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule} from '@angular/common/http';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes, {useHash: true}),
     MaterialModule,
