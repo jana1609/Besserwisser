@@ -21,9 +21,6 @@ export class RegisterComponent implements OnInit {
     this._snackBar.open(message, 'Registered', {duration: 2000,});
   }
 
-
-
-
   getErrorMessage(){
     return this.email.hasError('email') ? 'Not a valid email' : '';
   }
