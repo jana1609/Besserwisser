@@ -1,28 +1,81 @@
 <h2>Besserwisser</h2>
 
-<h3>Questions</h3>
-<div *ngFor="let question of questions">
-    <form>
+<h3>Quiz</h3>
+
+<!-- Proper solution -->
+
+<!--<div *ngFor="let question of questions; index as i" class="questiondiv">
+    <form name="game">
         
         <p *ngIf="question.questiontext">
             Question: {{question.questiontext}}
         </p>
-        <!--Value to determine correct/incorrect answer?-->
-        <input type="radio" id="a1" name="answer">
+        
+        <input type="radio" id="a1" name="answer" value="{{question.value1}}">
         <label *ngIf="question.answer1" for="a1" >{{question.answer1}}</label><br>
-        <input type="radio" id="a2" name="answer">
+        <input type="radio" id="a2" name="answer" value="{{question.value2}}">
         <label *ngIf="question.answer2" for="a2">{{question.answer2}}</label><br>
-        <input type="radio" id="a3" name="answer">
+        <input type="radio" id="a3" name="answer" value="{{question.value3}}">
         <label *ngIf="question.answer3" for="a3">{{question.answer3}}</label><br>
-        <input type="radio" id="a4" name="answer">
+        <input type="radio" id="a4" name="answer" value="{{question.value4}}">
         <label *ngIf="question.answer4" for="a4">{{question.answer4}}</label><br>
      
     </form>
-</div><br>
+</div>
+<br>-->
 
+<!-- Demo -->
 
-<button (click)="score()">
+<mat-divider></mat-divider>
+
+<div class="questiondiv">
+    <form>
+        <p>Question 1: What is the capital of Austria?</p>
+        <input type="radio" id="a1" name="answer" value="false">
+        <label>Madrid</label><br>
+        <input type="radio" id="a2" name="answer" value="false">
+        <label>Paris</label><br>
+        <input type="radio" id="a3" name="answer" value="true">
+        <label>Vienna</label><br>
+        <input type="radio" id="a4" name="answer" value="false">
+        <label>Berlin</label><br>
+    </form>
+</div>
+<mat-divider></mat-divider>
+<div class="questiondiv">
+    <form>
+        <p>Question 2: What is the capital of Spain?</p>
+        <input type="radio" id="a5" name="answer" value="true">
+        <label>Madrid</label><br>
+        <input type="radio" id="a6" name="answer" value="false">
+        <label>Paris</label><br>
+        <input type="radio" id="a7" name="answer" value="false">
+        <label>Vienna</label><br>
+        <input type="radio" id="a8" name="answer" value="false">
+        <label>Berlin</label><br>
+    </form>
+</div>
+<mat-divider></mat-divider>
+<div class="questiondiv">
+    <form>
+        <p>Question 3: What is the capital of France?</p>
+        <input type="radio" id="a9" name="answer" value="false">
+        <label>Madrid</label><br>
+        <input type="radio" id="a10" name="answer" value="true">
+        <label>Paris</label><br>
+        <input type="radio" id="a11" name="answer" value="false">
+        <label>Vienna</label><br>
+        <input type="radio" id="a12" name="answer" value="false">
+        <label>Berlin</label><br>
+    </form>
+</div>
+<mat-divider></mat-divider>
+<br>
+
+<div class="container">
+ <button mat-flat-button color="primary"(click)="score()" id="btn">
     Finish!
-</button>
+ </button>
+</div>
 
 
