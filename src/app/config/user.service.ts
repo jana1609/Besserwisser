@@ -4,7 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
-@Injectable()
+export interface User {
+  id: number;
+  username: string;
+  password: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class UserService {
   constructor(private http: HttpClient) { }
 
@@ -20,9 +28,5 @@ export class UserService {
   }
 }
 
-export interface User {
-  id: number;
-  username: string;
-  password: string;
-}
+
 
