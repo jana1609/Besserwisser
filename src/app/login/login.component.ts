@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
   hide = true;
 
   user: User;
+  errMsg: string = "";
 
   constructor(private _snackBar: MatSnackBar, private userService: UserService) { }
 
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit {
   }
 
   printErrMsg(err: string){
-    //todo print it
+    this.errMsg = err;
   }
 
   ngOnInit(): void {

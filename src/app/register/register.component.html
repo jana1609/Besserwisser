@@ -11,24 +11,27 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
-        <input required type="password" #password [type]="hide ? 'password' : 'text'" matInput>
+        <input required type="password" #password [type]="hide ? 'password' : 'text'" (input)="passwordErr(password.value)" matInput>
         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
+        <div style="color: darkred" *ngIf="passwordErrShow">{{passwordErrMsg}}</div>
       </mat-form-field>
 
       <mat-form-field appearance="fill" >
         <mat-label>Confirm Password</mat-label>
-        <input required type="password" [formControl]="confirmPass" pattern="{{ password.value }}"  [type]="hideconfirm ? 'password' : 'text'" matInput>
+        <input #confirmPassword required type="password" [formControl]="confirmPass" pattern="{{ password.value }}"  [type]="hideconfirm ? 'password' : 'text'" matInput>
         <button mat-icon-button matSuffix (click)="hideconfirm = !hideconfirm" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideconfirm">
           <mat-icon>{{hideconfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
         <mat-error *ngIf="confirmPass.errors?.pattern">Passwords Don't Match</mat-error>
       </mat-form-field>
 
+    <p class="errMsg">{{errMsg}}</p>
+
   </mat-card-content>
   <mat-card-actions class="section-buttons">
-    <a mat-raised-button (click)="register(inputUsername.value, password.value)" color="primary" routerLink="/login" routerLinkActive="active">Register</a>
+    <a mat-raised-button (click)="register(inputUsername.value, password.value, confirmPassword.value)" color="primary">Register</a>
     <a mat-raised-button routerLink="/login" routerLinkActive="active">Cancel</a>
   </mat-card-actions>
 </mat-card>

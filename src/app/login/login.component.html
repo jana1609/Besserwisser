@@ -18,6 +18,8 @@
       </button>
     </mat-form-field>
 
+  <p class="errMsg">{{errMsg}}</p>
+
   </mat-card-content>
   <mat-card-actions class="section-buttons">
     <a mat-raised-button (click)="login(username.value, password.value)" color="primary" routerLink="/home" routerLinkActive="active">Login</a>
