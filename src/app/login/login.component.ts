@@ -11,25 +11,37 @@ export class LoginComponent implements OnInit {
 
   hide = true;
 
-  //TODO FormControlName Password
+  user: User;
 
   constructor(private _snackBar: MatSnackBar, private userService: UserService) { }
 
-  ngOnInit(): void {
-  }
-
-  user: User;
   login(username: string, password: string) {
-    this.userService.getUser(username)
-      .subscribe((data: User) => this.user = data);
-
-    if(this.user.password === password) {
-      let message = "Username: " + username;
-      this._snackBar.open(message, 'Logged In', {duration: 2000,});
+    // check user expect boolean return
+    let exists: boolean = this.userService.checkUserExist(username);
+    //wenn nutzer existiert
+    if(exists){
+      let response = this.userService.checkUserPass(username, password);
+      if(response.passOk){
+        // password correct
+        //todo route to home with usertoken
+        let userToken = response.userToken;
+      }
+      else {
+        // password wrong
+        this.printErrMsg("Username or Password incorrect!");
+      }
     }
     else {
-      this._snackBar.open("username or password wrong", 'Try again', {duration: 2000,})
+      // username doesn't exist
+      this.printErrMsg("Username or Password incorrect!");
     }
-    //todo go to home with userid als href parameter, nicht sichtbar
+  }
+
+  printErrMsg(err: string){
+    //todo print it
+  }
+
+  ngOnInit(): void {
+
   }
 }
