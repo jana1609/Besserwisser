@@ -18,20 +18,25 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { ProfileComponent } from './profile/profile.component';
+import { GameComponent } from './game/game.component';
+import { MatRadioModule } from '@angular/material/radio';
+
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent},
   { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-  {path: 'profile', component:ProfileComponent}
+  {path: 'profile', component:ProfileComponent},
+  {path: 'game', component: GameComponent},
+  //{ path: '', component: exampleComponent }
   // login, profile, game, ...
-  // { path: '', component: exampleComponent }
-];
+  ];
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,
@@ -45,8 +50,9 @@ const routes: Routes = [
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
-
+    MatButtonModule,
+    MatRadioModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
