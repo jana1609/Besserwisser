@@ -42,7 +42,7 @@ const routes: Routes = [
     BrowserAnimationsModule,
     RouterModule.forRoot(routes, {useHash: true}),
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
     ReactiveFormsModule,
     FormsModule
   ],
