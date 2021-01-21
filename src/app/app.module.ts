@@ -12,17 +12,26 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {HttpClientModule} from '@angular/common/http';
 
+import {MatCardModule} from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import { ProfileComponent } from './profile/profile.component';
+
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent},
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full'}
-  // { path: '', component: exampleComponent }
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
+  {path: 'profile', component:ProfileComponent}
   // login, profile, game, ...
+  // { path: '', component: exampleComponent }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +40,13 @@ const routes: Routes = [
     MatToolbarModule,
     MatIconModule,
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDividerModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
