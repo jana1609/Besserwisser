@@ -1,105 +1,93 @@
 
 
-<div class="page">
+<div class="bw-page">
 
-  <div class="top-menu">
-    <div class="top-menu-logo">LOGO PLACEHOLDER</div>
-    <div class="top-menu-item-wrapper">
-      <a routerLink="/howtoplay" class="top-menu-item link">Spielanleitung</a>
-      <a routerLink="/tournaments" class="top-menu-item link">Turniere</a>
-    </div>
-    <div class="top-menu-growable"></div>
-    <!---  logged in-->
-    <div class="top-menu-right-wrapper" *ngIf="user">
-      <div class="top-menu-user-name">{{user.name}}</div>
-      <div class="top-menu-avatar"></div>
-    </div>
-      <!---  not logged in-->
-    <div class="top-menu-right-wrapper" *ngIf="!user">
-      <a routerLink="/login" class="top-menu-item link">Login</a>
-      <span class="top-menu-spacer"></span>
-      <a routerLink="/signup" class="top-menu-item link">Registrieren</a>
-    </div>
-  </div>
-  <div class="top-menu-user" *ngIf="user">
-    <div class="top-menu-growable"></div>
-    <a class="top-menu-user-item link">Dashboard</a>
-    <a class="top-menu-user-item link">Freunde</a>
-    <a class="top-menu-user-item link">Profil</a>
-    <a class="top-menu-user-item link">Logout</a>
-  </div>
 
   <div class="content-area" *ngIf="user">
 
     <!---  TODO -->
-    <div class="content-header">Neues Spiel</div>
-    <div class="game-new-wrapper">
-      <div class="game-line-wrapper">
-        <a class="new-game-start" (click)="createNewGame()">Spiel erstellen</a>
-        <div class="new-player-input-wrapper">
-          <input #playerSearch class="new-player-input" (input)="searchForUsersByName(playerSearch.value)" />
-          <div class="new-game-player-input-dropdown">
-            <a *ngFor="let user of searchedUsers$ | async" (click)="addUserToNewGameById(user.id)">{{user.name}}</a>
+    <div class="bw-header">Spiel erstellen</div>
+    <mat-divider></mat-divider>
+    <mat-card class="bw-card bw-flex-row-stretch bw-new-game">
+      <div class="bw-flex-column">
+        <div class="bw-flex-row">
+          <div style="position: relative;">
+            <input #playerSearch class="bw-new-search" (input)="searchForUsersByName(playerSearch.value)" matInput />
+            <div class="bw-new-search-dropdown">
+              <a *ngFor="let user of searchedUsers$ | async" (click)="addUserToNewGameById(user.id)">{{user.name}}</a>
+            </div>
           </div>
+          <a mat-raised-button color="primary" class="new-player-add" (click)="addUserToNewGameByName(playerSearch.value)">Hinzufügen</a>
         </div>
-        <a class="new-player-add" (click)="addUserToNewGameByName(playerSearch.value)">+</a>
-        <a class="new-player" *ngFor="let user of selectedUsers" (click)="removeUserFromNewGame(user.id)">{{user.name}}</a>
+        <div class="bw-flex-row bw-flex-grow">
+          <a class="bw-player" *ngFor="let user of selectedUsers" (click)="removeUserFromNewGame(user.id)">{{user.name}}</a>
+        </div>
+        <a mat-raised-button color="primary" class="new-game-start" (click)="createNewGame()">Spiel erstellen</a>
       </div>
-      <div class="highlight">Spieleinstellungen</div>
-      <div class="new-options">
-        PLACEHOLDER -> z.B. bestimmte Kategorien sperren, spezifische auswählen, Fragenanzahl festlegen etc..
+      <div class="bw-divider-vertical"></div>
+      <div class="bw-flex-column">
+        Kategorieauswahl:
+        <mat-checkbox color="primary" *ngFor="let cat of categories">{{cat.name}}</mat-checkbox>
       </div>
-    </div>
+    </mat-card>
 
     <div *ngIf="invites.length > 0">
-      <div class="content-header">Spieleinladungen</div>
+      <div class="bw-header">Spieleinladungen</div>
+      <mat-divider></mat-divider>
       <div *ngFor="let invite of invites">
-        <div *ngIf="user.id == invite.userId">
-          <div>
-            Neue Spieleinladung:<br> Spieler:{{invite.names.toString()}}<br>Kategorie: {{invite.categories[invite.categories.length-1]}}
-          </div>
-          <button (click)="acceptInvite(invite.id)">Annehmen</button><button (click)="declineInvite(invite.id)">Ablehnen</button>
-        </div>
+        <mat-card class="bw-card bw-flex-row" *ngIf="user.id == invite.userId">
+          <span class="bw-flex-grow">
+            <span class="bw-invite-header">Neue Spieleinladung:</span>
+            <span class="bw-invite-subheader">Spieler:</span>{{invite.names.toString()}}
+            <span class="bw-invite-subheader">Kategorien: {{invite.categories[invite.categories.length-1]}}</span>
+          </span>
+          <a mat-raised-button color="primary" class="bw-button" (click)="acceptInvite(invite.id)">Annehmen</a>
+          <a mat-raised-button color="secondary" class="bw-button" (click)="declineInvite(invite.id)">Ablehnen</a>
+        </mat-card>
       </div>
     </div>
 
-    <div class="content-header">Spiele, in denen du am Zug bist<a class="refresh link" (click)="updateGames();updateInvites();">Aktualisieren</a></div>
+    <div class="bw-header">Spiele, in denen du am Zug bist<a class="refresh link" (click)="updateGames();updateInvites();">Aktualisieren</a></div>
+    <mat-divider></mat-divider>
 
     <div *ngFor="let game of games">
-      <div class="game-wrapper" *ngIf="game.currentPlayerId === user.id && game.status == 1">
-        <a  routerLink="" class="game-continue-modal no-select">WEITERSPIELEN</a>
-        <div class="game-information-wrapper">
-          <div class="game-category">Kategorien: <span class="highlight" style="margin-left: 10px;" *ngFor="let cat of game.categories">{{cat}}</span></div>
-          <div>Mitspieler:<span *ngFor="let user of game.users" style="margin-left: 10px;">{{user.name}}</span></div>
-        </div>
-      </div>
+      <mat-card  class="bw-card bw-card-maxwidth" *ngIf="game.currentPlayerId === user.id && game.status == 1">
+        <mat-card-title>Spieler</mat-card-title>
+        <mat-card-content><span *ngFor="let user of game.users">{{user.name}} </span></mat-card-content>
+        <mat-card-title>Kategorien:</mat-card-title>
+        <mat-card-content><span *ngFor="let cat of game.categories">{{cat}} </span></mat-card-content>
+        <mat-card-actions class="section-buttons">
+          <a mat-raised-button color="primary" routerLink="/game" routerLinkActive="active">Weiterspielen</a>
+        </mat-card-actions>
+      </mat-card>
     </div>
 
-    <div class="content-header">Spiele, in denen jemand anders am Zug ist</div>
+    <div class="bw-header">Spiele, in denen jemand anders am Zug ist</div>
+    <mat-divider></mat-divider>
 
     <div *ngFor="let game of games">
-      <div class="game-wrapper" *ngIf="game.currentPlayerId !== user.id && game.status == 1">
-        <div class="game-information-wrapper">
-          <div class="game-category">Kategorien: <span class="highlight" style="margin-left: 10px;" *ngFor="let cat of game.categories">{{cat}}</span></div>
-          <div>Mitspieler:<span *ngFor="let user of game.users" style="margin-left: 10px;">{{user.name}}</span></div>
-        </div>
-      </div>
+      <mat-card  class="bw-card bw-card-maxwidth" *ngIf="game.currentPlayerId !== user.id && game.status == 1">
+        <mat-card-title>Spieler</mat-card-title>
+        <mat-card-content><span *ngFor="let user of game.users">{{user.name}} </span></mat-card-content>
+        <mat-card-title>Kategorien:</mat-card-title>
+        <mat-card-content><span *ngFor="let cat of game.categories">{{cat}} </span></mat-card-content>
+      </mat-card>
     </div>
 
-    <div class="content-header">Akzeptierte und erstellte Spiele</div>
+    <div class="bw-header">Akzeptierte und erstellte Spiele</div>
+    <mat-divider></mat-divider>
 
     <div *ngFor="let game of games">
-      <div class="game-wrapper" *ngIf="game.status == 0">
-        <div class="game-information-wrapper">
-          <div class="game-category">Kategorien: <span class="highlight" style="margin-left: 10px;" *ngFor="let cat of game.categories">{{cat}}</span></div>
-          <div>Mitspieler:<span *ngFor="let user of game.users" style="margin-left: 10px;">{{user.name}}</span></div>
-        </div>
-      </div>
+      <mat-card  class="bw-card bw-card-maxwidth" *ngIf="game.status == 0">
+        <mat-card-title>Spieler</mat-card-title>
+        <mat-card-content><span *ngFor="let user of game.users">{{user.name}} </span></mat-card-content>
+        <mat-card-title>Kategorien:</mat-card-title>
+        <mat-card-content><span *ngFor="let cat of game.categories">{{cat}} </span></mat-card-content>
+      </mat-card>
     </div>
-
   </div>
 
-  <div class="content-area" *ngIf="!user">
+  <div *ngIf="!user">
     Whoops. Something went wrong. <a routerLink="/home">Back to home.</a>
   </div>
 

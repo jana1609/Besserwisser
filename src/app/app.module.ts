@@ -12,24 +12,19 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {HttpClientModule} from '@angular/common/http';
 
-import {MatCardModule} from '@angular/material/card';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
 import { ProfileComponent } from './profile/profile.component';
 import { GameComponent } from './game/game.component';
-import { MatRadioModule } from '@angular/material/radio';
 
+import {MaterialModule} from './material.module';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent},
   { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-  {path: 'profile', component:ProfileComponent},
-  {path: 'game', component: GameComponent},
+  {path: 'profile', component: ProfileComponent},
+  {path: 'game', component: GameComponent}
   //{ path: '', component: exampleComponent }
   // login, profile, game, ...
-  ];
+];
 
 @NgModule({
   declarations: [
@@ -42,17 +37,10 @@ const routes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes, {useHash: true}),
+    MaterialModule,
     MatToolbarModule,
     MatIconModule,
-    BrowserModule,
-    HttpClientModule,
-    MatDividerModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatRadioModule,
-    
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

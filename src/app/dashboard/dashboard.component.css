@@ -1,367 +1,127 @@
-/* Definitions for page components*/
-
-body {
-  font-family: worksansregular, sans-serif;
-}
-
-.link {
-  color: inherit;
-  user-select: none;
-  text-decoration: none;
-}
-
-.link:hover {
-  cursor: pointer;
-  color: darkorange;
-}
-
-.no-select {
-  user-select: none;
-}
-
-.highlight {
-  font-family: worksansbold, sans-serif;
-  color: darkorange;
-}
-
-.page {
+.bw-page{
+  max-width: 1000px;
   margin: 0px auto;
-  display: flex;
-  flex-direction: column;
-  max-width: 1200px;
 }
 
-/* Definitions for top-menu components*/
-
-.top-menu {
-  border-bottom: solid 1px black;
-  color: black;
-  font-family: worksansbold, sans-serif;
-  display: flex;
-  flex-direction: row;
-}
-
-.top-menu a:hover, .top-menu-user-dropdown a:hover {
-  color: darkorange;
-}
-
-.top-menu-logo {
-  line-height: 80px;
-  text-align: center;
-  width: 300px;
-  height: 80px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-
-.top-menu-item-wrapper {
-  display: flex;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-left: 20px;
-}
-
-.top-menu-item {
-  display: flex;
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-
-.top-menu-item, .top-menu-user-name {
-  line-height: 36px;
-  height: 36px;
-  padding: 22px 12px;
-  margin: 0px 5px;
-}
-
-.top-menu-growable {
-  display: flex;
-  flex-grow: 1;
-  flex-shrink: 1;
-}
-
-.top-menu-right-wrapper {
-  display: flex;
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-
-.top-menu-user-wrapper {
-  display: flex;
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-
-.top-menu-avatar {
-  box-sizing: border-box;
-  background-color: lawngreen;
-  height: 64px;
-  width: 64px;
-  border-radius: 12px;
-  margin: 8px 10px;
-}
-
-.top-menu-user {
-  font-family: worksansbold, sans-serif;
-  margin-top: 1px;
-  border-top: solid 1px black;
-  display: flex;
-}
-
-.top-menu-user-item{
-  display: inline-block;
-  text-align: right;
-  padding: 5px;
-  margin: 5px;
-}
-
-/* Definitions for content-area components*/
-
-.content-header {
-  color: darkorange;
-  font-family: worksansbold, sans-serif;
+.bw-header{
+  font-weight: 500;
   font-size: 22px;
-  line-height: 22px;
-  padding: 5px;
-  margin-bottom: 5px;
-  border-bottom: solid 1px black;
+  margin: 20px 0px 5px 5px;
+  color: rgba(0,0,0,.87);
 }
 
-.refresh {
-  font-family: worksansregular, sans-serif;
-  color: black;
-  margin-top: 5px;
-  font-size: 12px;
-  float: right;
+.bw-card{
+  margin: 10px;
 }
 
-/* Definitions for new-game-wrapper components*/
-
-.game-new-wrapper {
+.bw-button{
+  margin-left: 5px;
 }
 
-.game-line-wrapper {
-  margin: 5px 0px;
+.bw-card-maxwidth{
+  max-width: 450px;
+}
+
+.bw-flex-row{
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.new-game-start {
-  display: inline-block;
-  background-color: darkorange;
-  border: solid 1px darkorange;
-  border-radius: 4px;
-  padding: 5px 10px;
-  line-height: 20px;
-  color: white;
-  margin-right: 5px;
-  font-family: worksansbold, sans-serif;
+.bw-flex-row-stretch{
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
 }
 
-.new-game-start:hover {
-  cursor: pointer;
-  background-color: orange;
+.bw-flex-column{
+  display: flex;
+  flex-direction: column;
 }
 
-.new-player-input-wrapper {
-  position: relative;
+.bw-flex-grow{
+  flex-grow: 1;
 }
 
-.new-player-input {
-  padding: 5px 10px;
+.bw-divider-vertical{
+  box-sizing: border-box;
+  width: 1px;
+  background-color: #ccc;
+  margin: 0px 10px;
+}
+
+.bw-new-game {
+  height: 150px;
+}
+
+.bw-invite-header{
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.bw-invite-subheader{
+  font-weight: 400;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+
+/*----*/
+
+.bw-new-search{
+  padding: 10px;
   border: solid 1px #ccc;
-  line-height: 20px;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
+  background-color: #f5f5f5;
 }
 
-.new-player-input:focus {
-  outline-color: darkorange;
+.bw-new-search:focus{
+  outline-color: #3f51b5;
 }
 
-.new-player-input:focus + div{
+.bw-new-search:focus + div{
   display: block;
 }
 
-.new-game-player-input-dropdown {
+.bw-new-search-dropdown {
+  z-index: 1;
   display: none;
   position: absolute;
-  top: 32px;
+  top: 36px;
   left: 0;
   width: 100%;
 }
 
-.new-game-player-input-dropdown:hover{
+.bw-new-search-dropdown:hover{
   display: block;
 }
 
-.new-game-player-input-dropdown a{
+.bw-new-search-dropdown a{
   display: block;
-  background-color: white;
+  background-color: #f5f5f5;
   padding: 5px;
   box-sizing: border-box;
-  border: solid 1px darkorange;
+  border: solid 1px #3f51b5;
   border-top: none;
 }
 
-.new-game-player-input-dropdown a:hover{
-  background-color: darkorange;
+.bw-new-search-dropdown a:hover{
+  background-color: #3f51b5;
   cursor: pointer;
   color: white;
 }
 
-.new-player-add {
-  background-color: darkorange;
-  padding: 5px 8px;
-  color: white;
-  font-family: worksansbold, sans-serif;
-  font-size: 20px;
-  line-height: 20px;
-  border: solid 1px darkorange;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-}
-
-.new-player-add:hover {
-  background-color: orange;
-  cursor: pointer;
-}
-
-.new-player {
-  background-color: lightgrey;
-  border-radius: 28px;
-  padding: 2px 10px;
-  border: solid 1px gray;
-  margin-left: 10px;
-}
-
-.new-player:hover {
-  background-color: #fc4103;
-  border-color: #fc4103;
-  color: white;
-  cursor: pointer;
-}
-
-.new-options {
-  margin-bottom: 20px;
-}
-
-/* Definitions for game-wrapper components*/
-
-.game-wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  border: solid 1px black;
-  border-radius: 12px;
-  margin-bottom: 15px;
-}
-
-.game-information-wrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 20px;
-}
-
-.game-category {
-  margin: 0px 0px;
-}
-
-.game-point-header{
-  margin: 5px 0px 5px 0px;
-  border-bottom: solid 1px black;
-}
-
-.game-point-wrapper {
-  display: flex;
-  flex-direction: row;
-}
-
-.game-player {
-  margin-right: 25px;
-  width: 150px;
-}
-
-.game-points {
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-}
-
-.game-point {
-  position: relative;
-  max-width: 80px;
-  height: 10px;
-  margin: 5px 15px;
-  flex-grow: 1;
-  background-color: darkgray;
-  border-color: transparent darkgray transparent darkgray;
-}
-
-.game-point::before {
-  position: absolute;
-  content: "";
-  top:0px;
-  left: -10px;
-  border-style: solid;
-  border-width: 5px 10px 5px 0px;
-  border-color: inherit;
-}
-
-.game-point::after {
-  position: absolute;
-  content: "";
-  top:0px;
-  right: -10px;
-  border-style: solid;
-  border-width: 5px 0px 5px 10px;
-  border-color: inherit;
-}
-
-.game-point:nth-child(3n+1){
-  margin-left: 50px;
-}
-
-.game-point:first-child {
-  margin-left: 0px;
-}
-
-.game-point:last-child {
+.bw-player{
+  padding: 5px 15px;
+  border-radius: 25px;
+  background-color: #f5f5f5;
+  border: solid 1px #ccc;
   margin-right: 10px;
 }
 
-.correct {
-  background-color: #9af547;
-  border-color: transparent #9af547 transparent #9af547;
-}
-
-.wrong {
-  background-color: #fc4103;
-  border-color: transparent #fc4103 transparent #fc4103;
-}
-
-.game-continue-modal{
-  position: absolute;
-  z-index: 1;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  background-color: orange;
-  font-family: worksansbold, sans-serif;
-  font-size: 22px;
-  border-radius: inherit;
-  text-decoration: none;
-}
-
-.game-wrapper:hover .game-continue-modal {
-  display: flex;
+.bw-player:hover{
+  background-color: #ce0026;
   cursor: pointer;
+  color: white;
 }
