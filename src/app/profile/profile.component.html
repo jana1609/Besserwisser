@@ -1,0 +1,58 @@
+<div class="profile-card">
+<mat-card>
+    <mat-card-title>
+        Username
+    </mat-card-title>
+    <mat-card-content>
+        <p>Current Username</p>
+        <mat-form-field appearance="fill" >
+            <mat-label>New Username</mat-label>
+            <input type="text" matInput>  
+        </mat-form-field>
+        <div class="profile-button">
+        <button mat-raised-button color="primary" (click) = "updateUsername()" >Change Username</button>
+        </div>
+    </mat-card-content>
+</mat-card>
+</div>
+
+<div class="profile-card">
+<mat-card>
+    <mat-card-title>
+        Password
+    </mat-card-title>
+    <mat-card-content>
+        <mat-form-field appearance="fill">
+        <mat-label>New Password</mat-label>
+        <input type="password" matInput>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+        <mat-label>Confirm Password</mat-label>
+        <input type="password" matInput>
+        </mat-form-field>
+        <div class="profile-button">
+            <button mat-raised-button color="primary" (click) = "updatePassword()">Change Password</button>
+        </div>
+    </mat-card-content>
+</mat-card>
+</div>
+
+<div class="profile-card">
+    <mat-card>
+        <mat-card-title>
+            Delete UserInfo
+        </mat-card-title>
+        <mat-card-content>
+            <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput>
+            </mat-form-field>
+            <div class="profile-button">
+                <button mat-raised-button color="primary" (click) = "deleteUser()">Delete User</button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+
