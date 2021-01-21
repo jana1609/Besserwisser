@@ -10,6 +10,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import {HttpClientModule} from '@angular/common/http';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent},
@@ -29,7 +30,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {useHash: true}),
     MatToolbarModule,
     MatIconModule,
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

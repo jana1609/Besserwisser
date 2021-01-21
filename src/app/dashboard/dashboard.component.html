@@ -63,20 +63,13 @@
       </div>
     </div>
 
-    <div class="content-header">Spiele, in denen du am Zug bist<a class="refresh link" (click)="updateGames()">Aktualisieren</a></div>
+    <div class="content-header">Spiele, in denen du am Zug bist<a class="refresh link" (click)="updateGames();updateInvites();">Aktualisieren</a></div>
 
     <div class="game-wrapper" *ngFor="let game of games">
       <div *ngIf="game.currentPlayerId === user.id && game.status == 1">
         <a  routerLink="" class="game-continue-modal no-select">WEITERSPIELEN</a>
         <div class="game-information-wrapper">
           <div class="game-category">Laufende Kategorie: <span class="highlight">{{game.categories[game.categories.length-1]}}</span></div>
-          <div class="game-point-header">Punktestand:</div>
-          <div class="game-point-wrapper" *ngFor="let player of game.players">
-            <div class="game-player">{{player.user.name}}</div>
-            <div class="game-points">
-              <div class="game-point" *ngFor="let answer of player.answers" [class.correct]="answer > 0" [class.wrong]="answer < 0"></div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -87,13 +80,6 @@
       <div *ngIf="game.currentPlayerId !== user.id && game.status == 1">
         <div class="game-information-wrapper">
           <div class="game-category">Laufende Kategorie: <span class="highlight">{{game.categories[game.categories.length-1]}}</span></div>
-          <div class="game-point-header">Punktestand:</div>
-          <div class="game-point-wrapper" *ngFor="let player of game.players">
-            <div class="game-player">{{player.user.name}}</div>
-            <div class="game-points">
-              <div class="game-point" *ngFor="let answer of player.answers" [class.correct]="answer > 0" [class.wrong]="answer < 0"></div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

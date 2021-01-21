@@ -2,55 +2,50 @@ import { Injectable } from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {Game} from './models/game';
 import {Invite} from './models/invite';
+import {InviteRes} from './models/inviteres';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {UserService} from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
 
-  constructor() { }
+  private serverUrl = 'https://besserwisser.herokuapp.com/';
+  private inviteUrl = 'invite/';
+  private gameUrl = 'game/';
 
-  getGamesOfUser(id: number): Observable<Game[]> {
-    // TODO: implement Servercall
-    return of([
-      { id: 1, questionCounter: 9, categories: ['Wissenschaft', 'Leben'], currentPlayerId: 1, players: [
-          { user: {id: 1, name: 'myNameIsAeyil'}, answers: [ 1, 1, 1, -1, -1, 1, 0, 0, 0]},
-          { user: {id: 2, name: 'edward101'}, answers: [ 1, -1, 1, -1, -1, -1, 0, 0, 0]},
-          { user: {id: 3, name: 'jürgen2'}, answers: [ 1, 1, -1, 1, 1, 1, 0, 0, 0 ]},
-          { user: {id: 4, name: 'andreas'}, answers: [ 1, 1, -1, 0, 0, 0, 0, 0, 0 ]}
-        ], status: 1 },
-      { id: 2, questionCounter: 15, categories: ['Wissenschaft', 'Leben', 'Geschichte'], currentPlayerId: 3, players: [
-          { user: {id: 1, name: 'myNameIsAeyil'}, answers: [ 1, -1, -1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]},
-          { user: {id: 3, name: 'jürgen2'}, answers: [ 1, -1, 1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]},
-        ], status: 1 }
-      ]
-    );
+  private httpOptionsObject = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': this.userService.token })
+  };
+
+  private httpOptions = {
+    headers: new HttpHeaders({'Authorization': this.userService.token})
+  };
+
+  constructor(private http: HttpClient, private userService: UserService) { }
+
+  getGamesOfUser(): Observable<Game[]> {
+    return this.http.get<Game[]>(this.serverUrl + this.gameUrl, this.httpOptions);
   }
 
-  getInvitesOfUser(id: number): Observable<Invite[]>{
-    return of([ {id: 1, gameId: 1, userId: 1, names: ['Herbert', 'Angelika', 'Ferdinand'], categories: ['Test', 'Test2']}]);
+  getInvitesOfUser(): Observable<Invite[]>{
+    return this.http.get<Invite[]>(this.serverUrl + this.inviteUrl, this.httpOptions);
   }
 
-  acceptInvite(id: number): Observable<Invite> {
-    return of({id: 1, gameId: 1, userId: 1, names: ['Herbert', 'Angelika', 'Ferdinand'], categories: ['Test', 'Test2']});
+  acceptInvite(id: number): Observable<InviteRes> {
+    return this.http.patch<InviteRes>(this.serverUrl + this.inviteUrl + id, { status: 1 }, this.httpOptionsObject);
   }
 
-  declineInvite(id: number): Observable<Invite> {
-    return of({id: 1, gameId: 1, userId: 1, names: ['Herbert', 'Angelika', 'Ferdinand'], categories: ['Test', 'Test2']});
+  declineInvite(id: number): Observable<InviteRes> {
+    return this.http.patch<InviteRes>(this.serverUrl + this.inviteUrl + id, { status: -1 }, this.httpOptionsObject);
   }
 
   getGame(id: number): Observable<Game>{
-    return of({ id: 2, questionCounter: 15, categories: ['Wissenschaft', 'Leben', 'Geschichte'], currentPlayerId: 3, players: [
-        { user: {id: 1, name: 'myNameIsAeyil'}, answers: [ 1, -1, -1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]},
-        { user: {id: 3, name: 'jürgen2'}, answers: [ 1, -1, 1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]},
-      ], status: 1 });
+    return this.http.get<Game>(this.serverUrl + this.gameUrl + id, this.httpOptions);
   }
 
-  createNewGame(ids: number[]): Observable<Game>{
-    return of(
-      { id: 2, questionCounter: 15, categories: ['Wissenschaft', 'Leben', 'Geschichte'], currentPlayerId: 3, players: [
-        { user: {id: 1, name: 'myNameIsAeyil'}, answers: [ 1, -1, -1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]},
-        { user: {id: 3, name: 'jürgen2'}, answers: [ 1, -1, 1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]},
-      ], status: 0 });
+  createNewGame(ids: number[], categories: number[]): Observable<Game>{
+    return this.http.post<Game>(this.serverUrl + this.gameUrl, { users: ids, categories: categories}, this.httpOptionsObject);
   }
 }

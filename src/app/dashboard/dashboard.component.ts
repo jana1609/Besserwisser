@@ -18,8 +18,8 @@ export class DashboardComponent implements OnInit {
   private searchTerms = new Subject<string>();
   selectedUsers: User[] = [];
   user: User;
-  games: Game[];
-  invites: Invite[];
+  games: Game[] = [];
+  invites: Invite[] = [];
 
   constructor(private gameService: GameService, private userService: UserService) { }
 
@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
     this.user = this.userService.loggedIn;
     this.user = {id: 1, name: 'myNameIsAeyil'}; // TODO: Remove with log in
     if (this.user){
-      this.updateInvites();  // does this work correctly?
+      this.updateInvites();
       this.updateGames();
     }
     this.searchedUsers$ = this.searchTerms.pipe(
@@ -37,12 +37,12 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  private updateInvites(): void{
-    this.gameService.getInvitesOfUser(this.user.id).subscribe(invites => this.invites = invites);
+  updateInvites(): void{
+    this.gameService.getInvitesOfUser().subscribe(invites => this.invites = invites);
   }
 
   updateGames(): void{
-    this.gameService.getGamesOfUser(this.user.id).subscribe(games => this.games = games);
+    this.gameService.getGamesOfUser().subscribe(games => this.games = games);
   }
 
   private addGame(game: Game): void{
@@ -90,23 +90,23 @@ export class DashboardComponent implements OnInit {
         playerIds.push(user.id);
       }
       this.selectedUsers = [];
-      this.gameService.createNewGame(playerIds).subscribe(game => this.addGame(game));
+      this.gameService.createNewGame(playerIds, []).subscribe(game => this.addGame(game)); // TODO: Add categories
     }
   }
 
   acceptInvite(id: number): void{
-    this.gameService.acceptInvite(id).subscribe(invite => {
-      this.removeInvite(invite); this.gameService.getGame(invite.gameId).subscribe(game => this.addGame(game));
+    this.gameService.acceptInvite(id).subscribe(inviteRes => {
+      this.removeInvite(inviteRes.id); this.gameService.getGame(inviteRes.gameId).subscribe(game => this.addGame(game));
     });
   }
 
   declineInvite(id: number): void{
-    this.gameService.declineInvite(id).subscribe(invite => this.removeInvite(invite));
+    this.gameService.declineInvite(id).subscribe(inviteRes => this.removeInvite(inviteRes.id));
   }
 
-  removeInvite(invite: Invite): void{
+  removeInvite(id: number): void{
     console.log('Hello');
-    const index = this.invites.findIndex(invitePresent => invitePresent.id === invite.id);
+    const index = this.invites.findIndex(invitePresent => invitePresent.id === id);
     if (index > -1){
       this.invites.splice(index, 1);
     }
