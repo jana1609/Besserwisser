@@ -13,7 +13,7 @@ export class UserService {
   private searchUrl = 'search/';
 
   token: string; // Use for authentication later
-  loggedIn: User;
+  loggedIn: User = {id: 1, name: 'user1'};
 
   private httpOptionsObject = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -26,15 +26,40 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   searchForUsers(term: string): Observable<User[]>{
-    return this.http.get<User[]>(this.serverUrl + this.userUrl + this.searchUrl + term, this.httpOptionsObject);
+    // return this.http.get<User[]>(this.serverUrl + this.userUrl + this.searchUrl + term, this.httpOptionsObject);
+    return of([{id: 2, name: 'user2'}, {id: 3, name: 'user3'}, {id: 4, name: 'user4'}]);
   }
 
   getUserById(id: number): Observable<User>{
-    return this.http.get<User>(this.serverUrl + this.userUrl + id, this.httpOptionsObject);
+    // return this.http.get<User>(this.serverUrl + this.userUrl + id, this.httpOptionsObject);
+    if (id === 2){
+      return of({id: 2, name: 'user2'});
+    }
+    else if (id === 3){
+      return of({id: 3, name: 'user3'});
+    }
+    else if (id === 4){
+      return of({id: 4, name: 'user4'});
+    }
+    else {
+      return null;
+    }
   }
 
   getUserByName(name: string): Observable<User>{
-    return this.http.get<User>(this.serverUrl + this.userUrl + name, this.httpOptions);
+    // return this.http.get<User>(this.serverUrl + this.userUrl + name, this.httpOptions);
+    if (name === 'user2'){
+      return of({id: 2, name: 'user2'});
+    }
+    else if (name === 'user3'){
+      return of({id: 3, name: 'user3'});
+    }
+    else if (name === 'user4'){
+      return of({id: 4, name: 'user4'});
+    }
+    else {
+      return null;
+    }
   }
 
   private setHeaders(token: string): void{
