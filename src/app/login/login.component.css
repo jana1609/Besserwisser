@@ -1,0 +1,25 @@
+:host {
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.section-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+mat-form-field {
+  padding-top: 8px;
+}
+
+.errMsg {
+  display: flex;
+  justify-content: center;
+  color: darkred;
+}

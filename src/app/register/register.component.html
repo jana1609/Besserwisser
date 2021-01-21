@@ -1,0 +1,37 @@
+<mat-card class="register">
+  <mat-card-title class="section-title">
+    Register
+  </mat-card-title>
+  <mat-card-content class="section-content">
+
+      <mat-form-field appearance="fill" >
+        <mat-label>Username</mat-label>
+        <input #inputUsername required type="text" matInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input #password [formControl]="p" [type]="hide ? 'password' : 'text'" matInput required>
+        <button (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" mat-icon-button matSuffix>
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="p.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" >
+        <mat-label>Confirm Password</mat-label>
+        <input #confirmPassword [type]="hideconfirm ? 'password' : 'text'"  matInput required>
+        <button mat-icon-button matSuffix (click)="hideconfirm = !hideconfirm" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideconfirm">
+          <mat-icon>{{hideconfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-hint *ngIf="!confirm(password.value, confirmPassword.value)">Confirm Password doesn't match!</mat-hint>
+      </mat-form-field>
+
+    <div class="errMsg">{{errMsg}}</div>
+
+  </mat-card-content>
+  <mat-card-actions class="section-buttons">
+    <a mat-raised-button (click)="register(inputUsername.value, password.value, confirmPassword.value)" color="primary">Register</a>
+    <a mat-raised-button routerLink="/login" routerLinkActive="active">Cancel</a>
+  </mat-card-actions>
+</mat-card>
