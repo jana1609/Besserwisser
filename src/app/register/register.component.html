@@ -11,23 +11,23 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
-        <input required type="password" #password [type]="hide ? 'password' : 'text'" (input)="passwordErr(password.value)" matInput>
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <input #password [formControl]="p" [type]="hide ? 'password' : 'text'" matInput required>
+        <button (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" mat-icon-button matSuffix>
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <div style="color: darkred" *ngIf="passwordErrShow">{{passwordErrMsg}}</div>
+        <mat-error *ngIf="p.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill" >
         <mat-label>Confirm Password</mat-label>
-        <input #confirmPassword required type="password" [formControl]="confirmPass" pattern="{{ password.value }}"  [type]="hideconfirm ? 'password' : 'text'" matInput>
+        <input #confirmPassword [type]="hideconfirm ? 'password' : 'text'"  matInput required>
         <button mat-icon-button matSuffix (click)="hideconfirm = !hideconfirm" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideconfirm">
           <mat-icon>{{hideconfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <mat-error *ngIf="confirmPass.errors?.pattern">Passwords Don't Match</mat-error>
+        <mat-hint *ngIf="!confirm(password.value, confirmPassword.value)">Confirm Password doesn't match!</mat-hint>
       </mat-form-field>
 
-    <p class="errMsg">{{errMsg}}</p>
+    <div class="errMsg">{{errMsg}}</div>
 
   </mat-card-content>
   <mat-card-actions class="section-buttons">

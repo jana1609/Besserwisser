@@ -21,5 +21,4 @@ mat-form-field {
 .errMsg {
   display: flex;
   justify-content: center;
-  color: darkred;
 }
