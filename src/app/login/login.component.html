@@ -1,0 +1,28 @@
+
+<mat-card class="login">
+  <mat-card-title class="section-title">
+    Login
+  </mat-card-title>
+  <mat-card-content class="section-content">
+
+    <mat-form-field appearance="fill" >
+      <mat-label>Username</mat-label>
+      <input #username required type="text" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input #password required type="password" minlength="8" [type]="hide ? 'password' : 'text'" matInput>
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+
+  <p class="errMsg">{{errMsg}}</p>
+
+  </mat-card-content>
+  <mat-card-actions class="section-buttons">
+    <a mat-raised-button (click)="login(username.value, password.value)" color="primary" routerLink="/dashboard" routerLinkActive="active">Login</a>
+    <a mat-raised-button routerLink="/register" routerLinkActive="active">Register</a>
+  </mat-card-actions>
+</mat-card>

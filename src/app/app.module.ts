@@ -1,46 +1,50 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { Routes, RouterModule } from '@angular/router';
 
-import { FlexLayoutModule } from '@angular/flex-layout';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
-import {HttpClientModule} from '@angular/common/http';
-
+import { NgModule } from '@angular/core';
+import { MaterialModule } from './material.module';
+import { FormsModule } from '@angular/forms';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule} from '@angular/common/http';
 import { ProfileComponent } from './profile/profile.component';
 import { GameComponent } from './game/game.component';
 
-import {MaterialModule} from './material.module';
-
 const routes: Routes = [
+  { path: 'register', component: RegisterComponent},
+  { path: 'login', component: LoginComponent},
   { path: 'dashboard', component: DashboardComponent},
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-  {path: 'profile', component: ProfileComponent},
-  {path: 'game', component: GameComponent}
-  //{ path: '', component: exampleComponent }
-  // login, profile, game, ...
-];
+  { path: '', redirectTo: '/login', pathMatch: 'full'},
+  {path: 'profile', component:ProfileComponent},
+  {path: 'game', component: GameComponent},
+
+  ];
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
+    RegisterComponent,
     DashboardComponent,
     ProfileComponent,
     GameComponent
+
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes, {useHash: true}),
     MaterialModule,
-    MatToolbarModule,
-    MatIconModule,
     HttpClientModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
