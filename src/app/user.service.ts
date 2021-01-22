@@ -11,6 +11,8 @@ export class UserService {
   private serverUrl = 'https://besserwisser.herokuapp.com/';
   private userUrl = 'user/';
   private searchUrl = 'search/';
+  private loginUrl = 'login/';
+  private registerUrl = 'register/';
 
   token: string; // Use for authentication later
   loggedIn: User = {id: 1, name: 'user1'};
@@ -69,5 +71,15 @@ export class UserService {
     this.httpOptions = {
       headers: new HttpHeaders({'Authorization': token})
     };
+  }
+
+  loginUser(){
+    return this.http.post<User>(this.serverUrl + this.loginUrl, this.httpOptions);
+    // todo by Jana
+  }
+
+  addUser(){
+    return this.http.post<User>(this.serverUrl + this.registerUrl, this.httpOptions);
+    // todo by Jana
   }
 }

@@ -1,7 +1,8 @@
 import {Component, NgModule, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {User, UserService} from '../config/user.service';
+import {User} from '../models/user';
+import {UserService} from '../user.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -53,16 +54,10 @@ export class RegisterComponent implements OnInit {
       this.printErrMsg("Password not confirmed");
     }
     else {
-      // check user expect boolean return
-      let exists: boolean = this.userService.checkUserExist(username);
-      exists = true;
-      //wenn nutzer existiert
-      if(exists) this.printErrMsg("Dieser Nutzername ist schon vergeben!");
-      // wenn nicht
-      else {
         // post user expect arr with boolean and event. err msg return
-        let response = this.userService.addUser(username, password);
-        let added: boolean = response.added;
+        let response = this.userService.addUser();
+        //todo add subscribe
+        let added: boolean;
         added = true;
         // wenn funktioniert
         if(added) {
@@ -71,10 +66,10 @@ export class RegisterComponent implements OnInit {
         // wenn Fehler
         else {
           // gib den Fehler aus
-          this.printErrMsg(response.msg);
+          this.printErrMsg('');
           // bleib bei register
         }
-      }
+
     }
   }
 
