@@ -1,5 +1,6 @@
 .logoImg {
   width: 40px;
+  align-self: center;
 }
 mat-toolbar {
   display: flex;
@@ -12,4 +13,12 @@ mat-toolbar {
   justify-content: center;
 }
 
+div {
+  display: flex;
+  align-items: center;
+}
 
+img,span,button {
+  padding-right: 5px;
+  padding-left: 5px;
+}
