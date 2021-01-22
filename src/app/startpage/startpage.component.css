@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+h1 {
+  padding-top: 50px;
+  margin-bottom: 0px;
+  font-size: 8em;
+  font-weight: lighter;
+  align-self: center;
+
+}
+button {
+  align-self: center;
+}
+img {
+  display: block;
+  width: 50em;
+}

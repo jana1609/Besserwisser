@@ -1,14 +1,14 @@
 
 <mat-toolbar color="primary">
-  <button mat-icon-button routerLink="/">
-    <mat-icon>home</mat-icon></button>&nbsp;
-  <span>Besserwisser</span>
-  <button mat-icon-button routerLink="/profile">
-    <mat-icon>account_circle</mat-icon></button>&nbsp;
-  <button mat-icon-button routerLink="/login">
-    <mat-icon>login</mat-icon></button>&nbsp;
-  <button mat-icon-button routerLink="/game">
-  <mat-icon>home</mat-icon></button>&nbsp;
+  <div>
+    <button class="left" mat-icon-button routerLink="/startpage">
+      <img class="logoImg" src="../assets/logo.png"></button>&nbsp;
+    <span class="left" style="color: white"> Besserwisser</span>
+  </div>
+  <div>
+    <button *ngIf="!loggedIn" mat-flat-button color="primary" routerLink="/login">Login/Register</button>
+    <button *ngIf="loggedIn" mat-flat-button color="primary" routerLink="/profile">Profile</button>
+  </div>
 </mat-toolbar>
 
 <div class="content" role="main">

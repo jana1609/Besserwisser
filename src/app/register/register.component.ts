@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 
 export class RegisterComponent implements OnInit {
 
+
   hide = true;
   hideconfirm = true;
   errMsg: string = "";

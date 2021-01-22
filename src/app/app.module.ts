@@ -15,15 +15,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
 import { ProfileComponent } from './profile/profile.component';
 import { GameComponent } from './game/game.component';
+import { StartpageComponent } from './startpage/startpage.component';
+
 
 const routes: Routes = [
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
   { path: 'dashboard', component: DashboardComponent},
-  { path: '', redirectTo: '/login', pathMatch: 'full'},
+  { path: '', redirectTo: '/startpage', pathMatch: 'full'},
   {path: 'profile', component:ProfileComponent},
   {path: 'game', component: GameComponent},
-
+  {path: 'startpage', component: StartpageComponent}
   ];
 
 @NgModule({
@@ -33,7 +35,8 @@ const routes: Routes = [
     RegisterComponent,
     DashboardComponent,
     ProfileComponent,
-    GameComponent
+    GameComponent,
+    StartpageComponent
 
   ],
   imports: [

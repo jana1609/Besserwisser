@@ -1,0 +1,15 @@
+.logoImg {
+  width: 40px;
+}
+mat-toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+}
+
+
