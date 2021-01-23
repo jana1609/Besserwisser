@@ -55,20 +55,20 @@ export class RegisterComponent implements OnInit {
       this.printErrMsg("Password not confirmed");
     }
     else {
-        // post user expect arr with boolean and event. err msg return
-        let response = this.userService.addUser();
-        //todo add subscribe
-        let added: boolean;
-        added = true;
-        // wenn funktioniert
-        if(added) {
-          this.route.navigateByUrl('/login');
+      this.printErrMsg("");
+
+        this.userService.addUser(username, password).subscribe(
+          res => {
+            this.userService.loggedIn.id = res.id;
+            this.userService.loggedIn.name = username;
+            this._snackBar.open(username + " logged in successfully!");
+          }
+        );
+        if(this.userService.loggedIn!= null) {
+          //this.route.navigateByUrl('/login');
         }
-        // wenn Fehler
         else {
-          // gib den Fehler aus
           this.printErrMsg('');
-          // bleib bei register
         }
 
     }

@@ -19,8 +19,11 @@ export class LoginComponent implements OnInit {
 
   login(username: string, password: string) {
     // login checks if user login data is good
-    this.userService.loginUser();
-    // todo subscribe
+    this.userService.loginUser(username, password).subscribe(
+      res => {
+        this._snackBar.open(res);
+      }
+    );
   }
 
   printErrMsg(err: string){
