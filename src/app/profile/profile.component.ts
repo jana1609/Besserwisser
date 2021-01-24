@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, ValidatorFn, Validators } from "@angular/Forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { User } from "../models/user";
+import { UserService } from "../user.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -7,29 +12,60 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  /**
-   * TODO
-   * IF VALID INPUT -> PUT HTTP REQUEST
-   * INVALID NO CHANGE 
-   * GET INPUT FROM TEXTINPUT
-   */
+hide = true;
+hideconfirm = true;
+errMsg: string = "";
+user: User; 
 
-  updateUsername(){
-    window.alert('This will update the username.');
+p = new FormControl('', [
+  Validators.required, Validators.minLength(8),
+  containsNumberValidator(), containsSymbolValidator()
+])
+
+confirm(firstInput, secondInput){
+  return firstInput === secondInput;
+}
+
+getErrorMessage(){
+  if(this.p.hasError('required')){
+    return 'You must enter a password!';
+  }
+  else if(this.p.hasError('minlength')){
+    return 'Password min length is 8!';
+  }
+  else if(this.p.hasError('noNumber')){
+    return 'Password requires a number!';
+  }
+  else if(this.p.hasError('noSymbol')){
+    return 'Password requires a symbol!';
+  }
+}
+
+printErrMsg(err: string){
+  this.errMsg = err;
+}
+
+
+  constructor(private _snackBar: MatSnackBar, private UserService: UserService, private route: Router) {} 
+
+  updateUsername(username){
+    if(username.length === 0){
+      this.printErrMsg("No Username entered")
+    }else{
+      //CHANGE USERNAME -> CALL changeUsername in user.service.ts
+    }
 
   }
 
-  /**
-   * TODO
-   * CHECK IF VALID INPUT -> PASSWORD RULES
-   * CHECK IF NEW PASSWORD == CONFIRM PASSWORD 
-   * THEN UPDATE 
-   * IF INVALID -> ERROR HANDLING 
-   */
+  updatePassword(password, confirmPassword){
+    if(this.p.invalid){
+      this.printErrMsg("Password not valid!");
+    }else if(password != confirmPassword){
+      this.printErrMsg("Passwords do not match!");
+    }else {
+      //CHANGE PASSWORD -> CALL changePassword in user.service.ts
 
-  updatePassword(){
-    window.alert('This will change the password.');
-
+    }
   }
 
   /**
@@ -37,14 +73,30 @@ export class ProfileComponent implements OnInit {
    * DELETE USER -> DELETE HTTP REQUEST
    */
 
-  deleteUser(){
-    window.alert('This will delete the userinfo.');
+  deleteUserInfo(password){
+
+    //Check Password
+    //DELETE USER -> CALL deleteUser in user.service.ts
+    window.alert('This will delete the userinfo.' +password);
 
   }
 
-  constructor() { }
 
   ngOnInit(): void {
   }
 
+}
+
+export function containsNumberValidator(): ValidatorFn {
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    const forbidden = !/\d/.test(control.value);
+    return forbidden ? {noNumber: {value: control.value}} : null;
+  };
+}
+
+export function containsSymbolValidator(): ValidatorFn {
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    const forbidden = !/[\s~`!@#$%\^&*=\-\[\]\\';,/{}|\\":<>\?()\._]/.test(control.value);
+    return forbidden ? {noSymbol: {value: control.value}} : null;
+  };
 }
