@@ -1,14 +1,42 @@
-.game-radio-group{
-    display: flex;
-    flex-direction: column;
-    margin: 15px;
+.game-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
 }
-.game-radio-button{
-    margin:5px;
+
+.game-radio-button {
+  margin: 5px;
 }
-.game-card{
-    padding-top: 20px;
+
+.game-card {
+  padding-top: 20px;
 }
-.container{
-    padding-top: 20px;
+
+.container {
+  padding-top: 20px;
+}
+
+mat-grid-list {
+  width: 600px;
+}
+
+mat-grid-tile button {
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+  background-color: #6bc5c2;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-title {
+  display: flex;
+  justify-content: center;
+}
+
+mat-card-subtitle {
+  display: flex;
+  justify-content: center;
 }

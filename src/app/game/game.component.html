@@ -1,31 +1,44 @@
-<div class ="game-card">
-    <mat-card>
-        <mat-card-title>
-            Besserwisser
-        </mat-card-title>
-        <mat-card-content>
-            <label id="questiontext">{{questiontext}}</label>
-            <mat-radio-group class="game-radio-group" [(ngModel)]="answerUser">
-                <mat-radio-button class="game-radio-button" *ngFor="let answer of answers" [value] = "answer">
-                    {{answer}}
-                </mat-radio-button>
-            </mat-radio-group>          
-        </mat-card-content>
-        <div>Your answer: {{answerUser}}</div>
-        <div>Correct answer: {{correctAnswer}}</div>
+<div class="game-card">
+  <mat-card>
+    <mat-card-title id="questiontext">{{questionText}}</mat-card-title>
+    <mat-card-content>
+      <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-tile>
+          <button mat-raised-button id="0" (click)="score(0)"
+                  [style.background-color]="clicked && correctAnswer==0 ? 'yellowgreen' : '#6bc5c2'"
+                  [style.background-color]="clicked && showWrong==0 ? '#a4373b' : '#6bc5c2'">
+            {{answers[0]}}</button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-raised-button id="1" (click)="score(1)"
+                  [style.background-color]="clicked && correctAnswer==1 ? 'yellowgreen' : '#6bc5c2'"
+                  [style.background-color]="clicked && showWrong==1 ? '#a4373b' : '#6bc5c2'">
+            {{answers[1]}}</button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-raised-button id="2" (click)="score(2)"
+                  [style.background-color]="clicked && correctAnswer==2 ? 'yellowgreen' : '#6bc5c2'"
+                  [style.background-color]="clicked && showWrong==2 ? '#a4373b' : '#6bc5c2'">
+            {{answers[2]}}</button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-raised-button id="3" (click)="score(3)"
+                  [style.background-color]="clicked && correctAnswer==3 ? 'yellowgreen' : '#6bc5c2'"
+                  [style.background-color]="clicked && showWrong==3 ? '#a4373b' : '#6bc5c2'">
+            {{answers[3]}}</button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
 
-        <mat-divider></mat-divider>
+    <mat-card-subtitle *ngIf="clicked"
+                       [style.color]="clickedCorrect==true ? 'yellowgreen' : '#a4373b'">
+      You guessed&nbsp;<b>{{clickedCorrect == true ? " correct" : " wrong"}}</b>!
+    </mat-card-subtitle>
 
-<div class="container">
- <button mat-flat-button color="primary"(click)="score()" id="btn">
-    Finish!
- </button>
- <button mat-flat-button disabled id="nextbtn">
-     Next!
- </button>
-</div>
+    <button mat-raised-button color="primary" *ngIf="clicked" (click)="continue()">
+      {{questionCount > 0 ? "Next Question" : "Finish"}}</button>
 
-    </mat-card>
+  </mat-card>
 </div>
 
 

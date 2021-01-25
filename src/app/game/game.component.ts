@@ -1,6 +1,7 @@
-import { DeclareVarStmt } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
-
+import {DeclareVarStmt} from '@angular/compiler';
+import {Component, OnInit} from '@angular/core';
+import {isObservable} from 'rxjs/internal-compatibility';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -14,16 +15,21 @@ export class GameComponent implements OnInit {
 
   // man könnte die Antworten als buttons diplayen, und wenn eine Antwort geklickt wurde, ruft man score auf (nicht über einen extra btn)
 
-  questioncount: number;
-  questiontext: string = 'Questiontext';
-  answers: string[] = ['Answer 1','Answer 2','Answer 3','Answer 4'];
+  questionCount: number;
+  questionText: string = 'Questiontext';
+  answers: string[] = ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4'];
   answerUser: string;
-  correctAnswer: string;
+  correctAnswer: number = 2;
 
-  constructor() { }
+  clicked: boolean = false; // gibt an ob schon eine antwort ausgewählt wurde
+  clickedCorrect: boolean = false; // gibt an ob die ausgewählte antwort correct ist
+  showWrong: number = -1; // wie showCorrect nur für falsch geklickte
+
+  constructor(private route: Router) {
+  }
 
   ngOnInit(): void {
-
+    this.questionCount = 3;
     /**
      * TODO
      * von dashboard übergeben bekommen: game id und category
@@ -36,7 +42,14 @@ export class GameComponent implements OnInit {
 
   //Method to lock in the answer
 
-  score(){
+  score(answer: number) {
+    let clickedAnswer = answer;
+    this.clicked = true;
+    this.clickedCorrect = (clickedAnswer == this.correctAnswer);
+    if (!this.clickedCorrect) {
+      this.showWrong = clickedAnswer;
+    }
+    this.questionCount--;
 
     /**
      * TODO
@@ -51,7 +64,13 @@ export class GameComponent implements OnInit {
 
   //Method to continue -> either next question or dashboard
 
-  continue(){
+  continue() {
+    if (this.questionCount > 0) {
+      this.clicked = false;
+      this.showWrong = -1;
+      //todo show next Question
+    }
+    else this.route.navigateByUrl('/dashboard');
 
     /**
      * TODO
@@ -63,7 +82,7 @@ export class GameComponent implements OnInit {
 
   }
 
-  showQuestion(){
+  showQuestion() {
 
   }
 
