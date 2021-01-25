@@ -13,28 +13,31 @@ export class GameComponent implements OnInit {
 
   //Definition for game elements
 
-  // man könnte die Antworten als buttons diplayen, und wenn eine Antwort geklickt wurde, ruft man score auf (nicht über einen extra btn)
-
   questionCount: number;
-  questionText: string = 'Questiontext';
+  questions = {
+    0: {text: 'This is Question 0.', answers: {0: 'Answer 0', 1: 'Answer 1', 2: 'Answer 2', 3: 'Answer 3'}, correct: 0},
+    1: {text: 'This is Question 1.', answers: {0: 'Answer 0', 1: 'Answer 1', 2: 'Answer 2', 3: 'Answer 3'}, correct: 3},
+    2: {text: 'This is Question 2.', answers: {0: 'Answer 0', 1: 'Answer 1', 2: 'Answer 2', 3: 'Answer 3'}, correct: 1}
+  };
+
+  questionText: string;
   answers: string[] = ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4'];
-  answerUser: string;
-  correctAnswer: number = 2;
+  correctAnswer: number;
 
   clicked: boolean = false; // gibt an ob schon eine antwort ausgewählt wurde
   clickedCorrect: boolean = false; // gibt an ob die ausgewählte antwort correct ist
-  showWrong: number = -1; // wie showCorrect nur für falsch geklickte
+  showWrong: number = -1; // gibt die antwortnummer an wenn falsch geklickt wurde, ums rot darzustellen
 
   constructor(private route: Router) {
   }
 
   ngOnInit(): void {
     this.questionCount = 3;
+    this.showQuestion();
     /**
      * TODO
-     * von dashboard übergeben bekommen: game id und category
      * set game status to running in db
-     * get number of questions (x) from game in db
+     * get questionCount from db
      * get x random questions for the category (make Array with the x questions)
      */
 
@@ -66,9 +69,11 @@ export class GameComponent implements OnInit {
 
   continue() {
     if (this.questionCount > 0) {
+      // reset UI
       this.clicked = false;
       this.showWrong = -1;
-      //todo show next Question
+      // show next question
+      this.showQuestion();
     }
     else this.route.navigateByUrl('/dashboard');
 
@@ -83,7 +88,15 @@ export class GameComponent implements OnInit {
   }
 
   showQuestion() {
-
+    console.log('show Question');
+    let currentQuestion = this.questions[this.questionCount-1];
+    console.log('current question: ' + currentQuestion);
+    this.questionText = currentQuestion.text;
+    console.log('text: ' + this.questionText);
+    for(let i=0;i<4;i++){
+      this.answers[i] = currentQuestion.answers[i];
+    }
+    this.correctAnswer = currentQuestion.correct;
   }
 
 }
