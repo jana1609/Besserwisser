@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {User} from '../models/user';
 import {UserService} from '../user.service';
@@ -14,24 +14,27 @@ export class LoginComponent implements OnInit {
   hide = true;
 
   user: User;
-  errMsg: string = "";
+  errMsg: string = '';
 
-  constructor(private _snackBar: MatSnackBar, private userService: UserService, private route: Router) { }
+  constructor(private _snackBar: MatSnackBar, private userService: UserService, private route: Router) {
+  }
 
   login(username: string, password: string) {
     // login checks if user login data is good
-    let res = this.userService.loginUser(username, password);
-    if(res.statusCode==200){
-      this._snackBar.open("Successfully logged in!");
-      this.route.navigateByUrl('/dashboard');
-    }
-    else {
-      this.printErrMsg(res.message);
-      this._snackBar.open(res.message);
-    }
+    this.userService.loginUser(username, password).subscribe(
+      res => {
+        //this.setHeaders(res.id);
+        this._snackBar.open('Successfully logged in!');
+        this.route.navigateByUrl('/dashboard');
+
+      },
+      err => {
+        this.printErrMsg(err.message);
+        this._snackBar.open(err.message);
+      });
   }
 
-  printErrMsg(err: string){
+  printErrMsg(err: string) {
     this.errMsg = err;
   }
 
