@@ -59,15 +59,9 @@ export class RegisterComponent implements OnInit {
 
         this.userService.addUser(username, password).subscribe(
           res => {
-            if(res.statusCode==200){
               this.userService.loggedIn.id = res.id;
               this.userService.loggedIn.name = username;
               this._snackBar.open(username + " logged in successfully!");
-            }
-            else {
-              this.printErrMsg(res.message);
-              this._snackBar.open(res.message);
-            }
           },
           error => {
             console.log(error);
