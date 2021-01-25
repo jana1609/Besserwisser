@@ -1,7 +1,6 @@
 import { DeclareVarStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 
-import { questions } from '../questions';
 
 
 @Component({
@@ -11,85 +10,42 @@ import { questions } from '../questions';
 })
 export class GameComponent implements OnInit {
 
-  questions = questions;
+  //Definition for game elements 
   
-  score(){
-
-    var score: number = 0;
-   
-    /*Notes:
-    - Iterating through Divs created by *NgFor?
-    - Iterating with forEach or fori
-    - var count = true -> to run an if-statement only once -> set false after statement 
-    - document.getElementsByName('answer') -> Problems with parsing as HTMLInputElement -> without no .checked
-      - Can't iterate through it because of it -> if it is possible -> if(a[i].checked && a.value == true){score++;}
-    */ 
-
-    //Checked not available - maybe multiple radio buttons causing the error 
-
-    //Solution for Demo 
-
-    var a1 = document.getElementById('a1') as HTMLInputElement;
-    var a2 = document.getElementById('a2') as HTMLInputElement;
-    var a3 = document.getElementById('a3') as HTMLInputElement;
-    var a4 = document.getElementById('a4') as HTMLInputElement;
-
-    if (a1.checked && a1.value == 'true'){
-      score++;
-    }
-    if (a2.checked && a2.value == 'true'){
-      score++;
-    }
-    if (a3.checked && a3.value == 'true'){
-      score++;
-    }
-    if (a4.checked && a4.value == 'true'){
-      score++;
-    }
-  
-    var a5 = document.getElementById('a5') as HTMLInputElement;
-    var a6 = document.getElementById('a6') as HTMLInputElement;
-    var a7 = document.getElementById('a7') as HTMLInputElement;
-    var a8 = document.getElementById('a8') as HTMLInputElement;
-
-    if (a5.checked && a5.value == 'true'){
-      score++;
-    }
-    if (a6.checked && a6.value == 'true'){
-      score++;
-    }
-    if (a7.checked && a7.value == 'true'){
-      score++;
-    }
-    if (a8.checked && a8.value == 'true'){
-      score++;
-    }
-  
-    var a9 = document.getElementById('a9') as HTMLInputElement;
-    var a10 = document.getElementById('a10') as HTMLInputElement;
-    var a11 = document.getElementById('a11') as HTMLInputElement;
-    var a12 = document.getElementById('a12') as HTMLInputElement;
-
-    if (a9.checked && a9.value == 'true'){
-      score++;
-    }
-    if (a10.checked && a10.value == 'true'){
-      score++;
-    }
-    if (a11.checked && a11.value == 'true'){
-      score++;
-    }
-    if (a12.checked && a12.value == 'true'){
-      score++;
-    }
-  
-    window.alert('Your score: ' +score);
-   
-  }
+  questiontext: string = 'Questiontext';
+  answers: string[] = ['Answer 1','Answer 2','Answer 3','Answer 4'];
+  answerUser: string;
+  correctAnswer: string;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  //Method to lock in the answer
+
+  score(){
+
+    /**
+     * TODO
+     * Check if answer is correct
+     * Send information to server 
+     * Show user the correct answer 
+     * Enable next button to let the user continue
+     */
+
+  }
+
+  //Method to continue -> either next question or dashboard 
+
+  continue(){
+    /**
+     * TODO
+     * Move user to next question or back to the dashboard 
+     * Maybe send information to server here (?)
+     */
+
+  }
+
 }
+

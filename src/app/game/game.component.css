@@ -1,28 +1,14 @@
-h2 {
-    text-align: center;
-    background-color: lightgray;
-    width: 50%;
-    border-radius: 20px;
-    margin: 10px;
+.game-radio-group{
+    display: flex;
+    flex-direction: column;
+    margin: 15px;
 }
-h3{
-    text-align: center;
-    background-color: lightgray;
-    width: 50%;
-    border-radius: 20px;
-    margin: 10px;
+.game-radio-button{
+    margin:5px;
 }
-form {
-    align-items: center;
-    margin: auto;
-    width: 60%;
-    padding: 10px;
+.game-card{
+    padding-top: 20px;
 }
 .container{
-    text-align: center;
-}
-button{
-    font-size: 20px;
-    margin: auto;
-    
+    padding-top: 20px;
 }
