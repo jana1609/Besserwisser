@@ -73,9 +73,16 @@ export class UserService {
     };
   }
 
-  loginUser(u, p){
+  loginUser(u, p):any {
     const body = {username: u, password: p}
-    return this.http.post<any>(this.serverUrl + this.loginUrl, body);
+    return this.http.post<any>(this.serverUrl + this.loginUrl, body).subscribe(
+      res => {
+        if(res.statusCode==200){
+          //todo wie setz ich die id als token zum auth.
+          this.setHeaders(res.id);
+        }
+        return res;
+      })
   }
 
   addUser(u, p){

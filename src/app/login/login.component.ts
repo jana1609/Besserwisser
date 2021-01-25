@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {User} from '../models/user';
 import {UserService} from '../user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,15 +16,19 @@ export class LoginComponent implements OnInit {
   user: User;
   errMsg: string = "";
 
-  constructor(private _snackBar: MatSnackBar, private userService: UserService) { }
+  constructor(private _snackBar: MatSnackBar, private userService: UserService, private route: Router) { }
 
   login(username: string, password: string) {
     // login checks if user login data is good
-    this.userService.loginUser(username, password).subscribe(
-      res => {
-        this._snackBar.open(res);
-      }
-    );
+    let res = this.userService.loginUser(username, password);
+    if(res.statusCode==200){
+      this._snackBar.open("Successfully logged in!");
+      this.route.navigateByUrl('/dashboard');
+    }
+    else {
+      this.printErrMsg(res.message);
+      this._snackBar.open(res.message);
+    }
   }
 
   printErrMsg(err: string){
