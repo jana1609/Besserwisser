@@ -9,15 +9,16 @@
     <div class="bw-header">Spiel erstellen</div>
     <mat-divider></mat-divider>
     <mat-card class="bw-card bw-flex-row-stretch bw-new-game">
-      <div class="bw-flex-column">
+      <div class="bw-flex-column bw-flex-grow">
         <div class="bw-flex-row">
-          <div style="position: relative;">
-            <input #playerSearch class="bw-new-search" (input)="searchForUsersByName(playerSearch.value)" matInput />
-            <div class="bw-new-search-dropdown">
+          <mat-form-field class="bw-flex-grow bw-dropdown-anchor">
+            <mat-label>Spieler</mat-label>
+            <input #playerSearch class="bw-search-input" (input)="searchForUsersByName(playerSearch.value)" matInput />
+            <div class="bw-search-dropdown">
               <a *ngFor="let user of searchedUsers$ | async" (click)="addUserToNewGameById(user.id)">{{user.name}}</a>
             </div>
-          </div>
-          <a mat-raised-button color="primary" class="new-player-add" (click)="addUserToNewGameByName(playerSearch.value)">Hinzufügen</a>
+          </mat-form-field>
+          <a mat-raised-button color="primary" class="bw-add-player" (click)="addUserToNewGameByName(playerSearch.value)">Hinzufügen</a>
         </div>
         <div class="bw-flex-row bw-flex-grow">
           <a class="bw-player" *ngFor="let user of selectedUsers" (click)="removeUserFromNewGame(user.id)">{{user.name}}</a>
@@ -27,19 +28,21 @@
       <div class="bw-divider-vertical"></div>
       <div class="bw-flex-column">
         Kategorieauswahl:
-        <mat-checkbox color="primary" *ngFor="let cat of categories">{{cat.name}}</mat-checkbox>
+        <div *ngFor="let cat of categories">
+          <mat-checkbox color="primary" (change)="toggleCategorySelection(cat.id)">{{cat.name}}</mat-checkbox>
+        </div>
       </div>
     </mat-card>
 
-    <div *ngIf="invites.length > 0">
+    <div *ngIf="invites && invites.length > 0">
       <div class="bw-header">Spieleinladungen</div>
       <mat-divider></mat-divider>
       <div *ngFor="let invite of invites">
         <mat-card class="bw-card bw-flex-row" *ngIf="user.id == invite.userId">
           <span class="bw-flex-grow">
-            <span class="bw-invite-header">Neue Spieleinladung:</span>
-            <span class="bw-invite-subheader">Spieler:</span>{{invite.names.toString()}}
-            <span class="bw-invite-subheader">Kategorien: {{invite.categories[invite.categories.length-1]}}</span>
+            <div class="bw-invite-header">Neue Spieleinladung:</div>
+            <div class="bw-invite-subheader">Spieler: {{invite.names.toString()}}</div>
+            <div class="bw-invite-subheader">Kategorien: {{invite.categories[invite.categories.length-1]}}</div>
           </span>
           <a mat-raised-button color="primary" class="bw-button" (click)="acceptInvite(invite.id)">Annehmen</a>
           <a mat-raised-button color="secondary" class="bw-button" (click)="declineInvite(invite.id)">Ablehnen</a>
@@ -47,7 +50,7 @@
       </div>
     </div>
 
-    <div class="bw-header">Spiele, in denen du am Zug bist<a class="refresh link" (click)="updateGames();updateInvites();">Aktualisieren</a></div>
+    <div class="bw-header">Spiele, in denen du am Zug bist<a class="refresh link" style="display:none;" (click)="updateGames();updateInvites();">Aktualisieren</a></div>
     <mat-divider></mat-divider>
 
     <div *ngFor="let game of games">

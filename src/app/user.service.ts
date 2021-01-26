@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {User} from './models/user';
 import {Observable, of} from 'rxjs';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
+import {FriendRequest} from "./models/friendrequest";
 
 @Injectable({
   providedIn: 'root'
@@ -13,55 +14,64 @@ export class UserService {
   private searchUrl = 'search/';
   private loginUrl = 'login/';
   private registerUrl = 'register';
+  private friendsUrl = 'friends/';
+  private friendrequestUrl = 'request/';
 
   token: string; // Use for authentication later
   loggedIn: User = {id: 1, name: 'user1'};
 
-  private httpOptionsObject = {
+  httpOptionsObject = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  private httpOptions = {
+  httpOptions = {
     headers: new HttpHeaders()
   };
 
   constructor(private http: HttpClient) { }
 
+  searchForFriendsAndUsers(term: string): Observable<User[]>{
+    return this.http.get<User[]>(this.serverUrl + this.userUrl + this.searchUrl + term, this.httpOptions);
+  }
+
   searchForUsers(term: string): Observable<User[]>{
-    // return this.http.get<User[]>(this.serverUrl + this.userUrl + this.searchUrl + term, this.httpOptionsObject);
-    return of([{id: 2, name: 'user2'}, {id: 3, name: 'user3'}, {id: 4, name: 'user4'}]);
+    return this.http.get<User[]>(this.serverUrl + this.friendsUrl + term, this.httpOptions);
   }
 
   getUserById(id: number): Observable<User>{
-    // return this.http.get<User>(this.serverUrl + this.userUrl + id, this.httpOptionsObject);
-    if (id === 2){
-      return of({id: 2, name: 'user2'});
-    }
-    else if (id === 3){
-      return of({id: 3, name: 'user3'});
-    }
-    else if (id === 4){
-      return of({id: 4, name: 'user4'});
-    }
-    else {
-      return null;
-    }
+    return this.http.get<User>(this.serverUrl + this.userUrl + id, this.httpOptions);
   }
 
   getUserByName(name: string): Observable<User>{
-    // return this.http.get<User>(this.serverUrl + this.userUrl + name, this.httpOptions);
-    if (name === 'user2'){
-      return of({id: 2, name: 'user2'});
-    }
-    else if (name === 'user3'){
-      return of({id: 3, name: 'user3'});
-    }
-    else if (name === 'user4'){
-      return of({id: 4, name: 'user4'});
-    }
-    else {
-      return null;
-    }
+    return this.http.get<User>(this.serverUrl + this.userUrl + name, this.httpOptions);
+  }
+
+  getFriends(): Observable<User[]>{
+    return this.http.get<User[]>(this.serverUrl + this.friendsUrl, this.httpOptions);
+  }
+
+  deleteFriend(id: number): Observable<User>{
+    return this.http.delete<User>(this.serverUrl + this.friendsUrl + id, this.httpOptions);
+  }
+
+  getFriendRequests(): Observable<FriendRequest[]>{
+    return this.http.get<FriendRequest[]>(this.serverUrl + this.friendsUrl + this.friendrequestUrl, this.httpOptions);
+  }
+
+  sendFriendRequestByName(name: string): Observable<any>{
+    return this.http.post(this.serverUrl + this.friendsUrl + this.friendrequestUrl, { name: name}, this.httpOptionsObject);
+  }
+
+  sendFriendRequestById(id: number): Observable<any>{
+    return this.http.post(this.serverUrl + this.friendsUrl + this.friendrequestUrl, { id: id}, this.httpOptionsObject);
+  }
+
+  acceptFriendRequest(id: number): Observable<FriendRequest> {
+    return this.http.put<FriendRequest>(this.serverUrl + this.friendsUrl + this.friendrequestUrl + id, { status: 1 }, this.httpOptionsObject);
+  }
+
+  declineFriendRequest(id: number): Observable<FriendRequest> {
+    return this.http.put<FriendRequest>(this.serverUrl + this.friendsUrl + this.friendrequestUrl + id, { status: -1 }, this.httpOptionsObject);
   }
 
   private setHeaders(token: string): void{
@@ -74,12 +84,12 @@ export class UserService {
   }
 
   loginUser(u, p){
-    const body = {username: u, password: p}
+    const body = {username: u, password: p};
     return this.http.post<any>(this.serverUrl + this.loginUrl, body);
   }
 
   addUser(u, p){
-    console.log("at user service")
+    console.log('at user service');
     return this.http.post<any>(this.serverUrl + this.registerUrl,{username: u, password: p}, this.httpOptionsObject);
   }
 }
