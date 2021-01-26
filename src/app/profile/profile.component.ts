@@ -14,6 +14,7 @@ export class ProfileComponent implements OnInit {
 
 hide = true;
 hideconfirm = true;
+hidedelete = true;
 errMsg: string = "";
 user: User; 
 
@@ -52,7 +53,7 @@ printErrMsg(err: string){
     if(username.length === 0){
       this.printErrMsg("No Username entered")
     }else{
-      //CHANGE USERNAME -> CALL changeUsername in user.service.ts
+      this.UserService.changeUsername(username).subscribe();
     }
 
   }
@@ -63,22 +64,19 @@ printErrMsg(err: string){
     }else if(password != confirmPassword){
       this.printErrMsg("Passwords do not match!");
     }else {
-      //CHANGE PASSWORD -> CALL changePassword in user.service.ts
-
+      this.UserService.changePassword(password).subscribe;
+      
     }
   }
 
-  /**
-   * CHECK IF PASSWORD INPUT IS CORRECT 
-   * DELETE USER -> DELETE HTTP REQUEST
-   */
+  deleteUserInfo(){
+    
+    let confirmVar = confirm("You are about to delete your UserInfo!")
 
-  deleteUserInfo(password){
+    if (confirmVar == true){
+      this.UserService.deleteUser().subscribe;
 
-    //Check Password
-    //DELETE USER -> CALL deleteUser in user.service.ts
-    window.alert('This will delete the userinfo.' +password);
-
+    }
   }
 
 

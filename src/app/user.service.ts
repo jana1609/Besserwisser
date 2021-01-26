@@ -82,4 +82,20 @@ export class UserService {
     console.log("at user service")
     return this.http.post<any>(this.serverUrl + this.registerUrl,{username: u, password: p}, this.httpOptionsObject);
   }
+
+
+  changeUsername(u){
+    const body = {username: u}
+    return this.http.put<any>(this.serverUrl, body)
+  }
+
+  changePassword(p){
+    const body = {password: p}
+    return this.http.put<any>(this.serverUrl, body)
+
+  }
+
+  deleteUser(){
+    return this.http.delete<any>(this.serverUrl, this.httpOptionsObject);
+  }
 }
