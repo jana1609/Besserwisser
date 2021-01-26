@@ -14,6 +14,8 @@ export class GameComponent implements OnInit {
   //Definition for game elements
 
   questionCount: number;
+  questionCountUi: number;
+  scored: number;
   questions = {
     0: {text: 'This is Question 0.', answers: {0: 'Answer 0', 1: 'Answer 1', 2: 'Answer 2', 3: 'Answer 3'}, correct: 0},
     1: {text: 'This is Question 1.', answers: {0: 'Answer 0', 1: 'Answer 1', 2: 'Answer 2', 3: 'Answer 3'}, correct: 3},
@@ -33,6 +35,8 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.questionCount = 3;
+    this.questionCountUi = 1;
+    this.scored = 0;
     this.showQuestion();
     /**
      * TODO
@@ -51,8 +55,12 @@ export class GameComponent implements OnInit {
     this.clickedCorrect = (clickedAnswer == this.correctAnswer);
     if (!this.clickedCorrect) {
       this.showWrong = clickedAnswer;
+    }else{
+      this.scored++;
     }
+    
     this.questionCount--;
+    this.questionCountUi++;
 
     /**
      * TODO
@@ -89,7 +97,7 @@ export class GameComponent implements OnInit {
 
   showQuestion() {
     console.log('show Question');
-    let currentQuestion = this.questions[this.questionCount-1];
+    let currentQuestion = this.questions[this.questionCountUi];
     console.log('current question: ' + currentQuestion);
     this.questionText = currentQuestion.text;
     console.log('text: ' + this.questionText);
