@@ -64,15 +64,19 @@ export class GameService {
     return null;
   }
 
-  getQuestions(gameId: number): Observable<any>{
-    this.setHeaders(this.userService.token);
-    console.log("in gameservice before http");
-    console.log('Auth:'+this.httpOptionsObject.headers.get('Authorization'));
-    return this.http.post<any>(this.serverUrl + this.gameUrl + 'questions/',{gameId: gameId}, this.httpOptionsObject);
-  }
-
   createNewGame(ids: number[], categories: number[]): Observable<Game>{
     // return this.http.post<Game>(this.serverUrl + this.gameUrl, { users: ids, categories: categories}, this.httpOptionsObject);
     return of({ id: 5, currentPlayerId: 0, questionCounter: 3, categories: [ 'Sport'], users: [ {id: 1, name: 'user1'}, {id: 2, name: 'user2'}], status: 0});
   }
+
+  getQuestions(gameId: number): Observable<any>{
+    this.setHeaders(this.userService.token);
+    return this.http.post<any>(this.serverUrl + this.gameUrl + 'questions/',{gameId: gameId}, this.httpOptionsObject);
+  }
+
+  updateGameStatus(status: number, gameId: number): Observable<any>{
+    this.setHeaders(this.userService.token);
+    return this.http.post<any>(this.serverUrl + this.gameUrl + 'status/',{status: status, id: gameId}, this.httpOptionsObject);
+  }
+
 }

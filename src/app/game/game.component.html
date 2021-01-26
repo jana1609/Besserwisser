@@ -1,5 +1,5 @@
 <div class="game-card">
-  <mat-card>
+  <mat-card *ngIf="everythingOK">
     <mat-card-title id="questiontext">{{questionText}}</mat-card-title>
     <mat-card-content>
       <mat-grid-list cols="2" rowHeight="2:1">
@@ -38,6 +38,9 @@
     <button mat-raised-button color="primary" *ngIf="clicked" (click)="continue()">
       {{questionCount > 0 ? "Next Question" : "Finish"}}</button>
 
+  </mat-card>
+  <mat-card *ngIf="!everythingOK">
+    <mat-card-title>Sorry, an Error appeared!</mat-card-title>
   </mat-card>
 </div>
 
