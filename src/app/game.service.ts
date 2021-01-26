@@ -26,11 +26,11 @@ export class GameService {
   }
 
   acceptInvite(id: number): Observable<InviteRes> {
-    return this.http.patch<InviteRes>(this.serverUrl + this.inviteUrl + id, { status: 1 }, this.userService.httpOptionsObject);
+    return this.http.put<InviteRes>(this.serverUrl + this.inviteUrl + id, { status: 1 }, this.userService.httpOptionsObject);
   }
 
   declineInvite(id: number): Observable<InviteRes> {
-    return this.http.patch<InviteRes>(this.serverUrl + this.inviteUrl + id, { status: -1 }, this.userService.httpOptionsObject);
+    return this.http.put<InviteRes>(this.serverUrl + this.inviteUrl + id, { status: -1 }, this.userService.httpOptionsObject);
   }
 
   getGame(id: number): Observable<Game>{
