@@ -2,6 +2,7 @@ import {DeclareVarStmt} from '@angular/compiler';
 import {Component, OnInit} from '@angular/core';
 import {isObservable} from 'rxjs/internal-compatibility';
 import {Router} from '@angular/router';
+import {GameService} from '../game.service';
 
 
 @Component({
@@ -13,38 +14,55 @@ export class GameComponent implements OnInit {
 
   //Definition for game elements
 
+  //Counter
   questionCount: number;
   questionCountUi: number;
-  scored: number;
-  questions = {
-    0: {text: 'This is Question 0.', answers: {0: 'Answer 0', 1: 'Answer 1', 2: 'Answer 2', 3: 'Answer 3'}, correct: 0},
-    1: {text: 'This is Question 1.', answers: {0: 'Answer 0', 1: 'Answer 1', 2: 'Answer 2', 3: 'Answer 3'}, correct: 3},
-    2: {text: 'This is Question 2.', answers: {0: 'Answer 0', 1: 'Answer 1', 2: 'Answer 2', 3: 'Answer 3'}, correct: 1}
-  };
 
+  //all Questions and Answers
+  categoryName: string;
+  questions = {0: {answers: {0:'Answer 1', 1:'Answer 2', 2:'Answer 3', 3:'Answer 4'}},
+    1: {answers: {0:'Answer 1', 1:'Answer 2', 2:'Answer 3', 3:'Answer 4'}},
+    2: {answers: {0:'Answer 1', 1:'Answer 2', 2:'Answer 3', 3:'Answer 4'}},
+    3: {answers: {0:'Answer 1', 1:'Answer 2', 2:'Answer 3', 3:'Answer 4'}},};
+
+  //current Question and Answers
   questionText: string;
   answers: string[] = ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4'];
   correctAnswer: number;
 
-  clicked: boolean = false; // gibt an ob schon eine antwort ausgewählt wurde
-  clickedCorrect: boolean = false; // gibt an ob die ausgewählte antwort correct ist
-  showWrong: number = -1; // gibt die antwortnummer an wenn falsch geklickt wurde, ums rot darzustellen
+  //current user input
+  clicked: boolean = false;         // gibt an ob schon eine antwort ausgewählt wurde
+  clickedCorrect: boolean = false;  // gibt an ob die ausgewählte antwort correct ist
+  showWrong: number = -1;           // gibt die antwortnummer an wenn falsch geklickt wurde, ums rot darzustellen
 
-  constructor(private route: Router) {
-  }
+  //total user results
+  userResult: boolean[] = [false, false, false, false]
+  scored: number;
+
+  constructor(private route: Router, private gameService: GameService) {}
 
   ngOnInit(): void {
-    this.questionCount = 3;
-    this.questionCountUi = 1;
-    this.scored = 0;
-    this.showQuestion();
+    let gameId = 0;
+    //todo get gameId
+    this.gameService.getQuestions(gameId).subscribe(res => {
+      console.log("in subscribe");
+      this.questions = res.questions;
+      this.questionCount = res.numberQuestions;
+      this.categoryName = res.categoryName;
+      this.questionCount = 3;
+      this.questionCountUi = 0; // Arrays fangen mit wert 0 an, deswegen einfachheitshalber auch counter bei 0 anfangen
+      this.scored = 0;
+      this.showQuestion();
+    }, err => {
+      this.printErr();
+    });
+
     /**
      * TODO
      * set game status to running in db
      * get questionCount from db
      * get x random questions for the category (make Array with the x questions)
      */
-
   }
 
   //Method to lock in the answer
@@ -55,10 +73,11 @@ export class GameComponent implements OnInit {
     this.clickedCorrect = (clickedAnswer == this.correctAnswer);
     if (!this.clickedCorrect) {
       this.showWrong = clickedAnswer;
-    }else{
-      this.scored++;
     }
-    
+    else{
+      this.scored++;
+      this.userResult[this.questionCountUi] = true;
+    }
     this.questionCount--;
     this.questionCountUi++;
 
@@ -92,7 +111,6 @@ export class GameComponent implements OnInit {
      * set game status to finished in db
      * Maybe send information to server here (?)
      */
-
   }
 
   showQuestion() {
@@ -105,6 +123,10 @@ export class GameComponent implements OnInit {
       this.answers[i] = currentQuestion.answers[i];
     }
     this.correctAnswer = currentQuestion.correct;
+  }
+
+  printErr() {
+    //todo
   }
 
 }

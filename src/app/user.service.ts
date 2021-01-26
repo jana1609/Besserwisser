@@ -14,7 +14,7 @@ export class UserService {
   private loginUrl = 'login/';
   private registerUrl = 'register';
 
-  token: string; // Use for authentication later
+  token: string = ""; // Use for authentication later
   loggedIn: User = {id: 1, name: 'user1'};
 
   private httpOptionsObject = {

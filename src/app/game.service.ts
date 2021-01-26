@@ -23,6 +23,15 @@ export class GameService {
     headers: new HttpHeaders({'Authorization': this.userService.token})
   };
 
+  private setHeaders(token: string): void{
+    this.httpOptionsObject = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': token })
+    };
+    this.httpOptions = {
+      headers: new HttpHeaders({'Authorization': token})
+    };
+  }
+
   constructor(private http: HttpClient, private userService: UserService) { }
 
   getGamesOfUser(): Observable<Game[]> {
@@ -53,6 +62,13 @@ export class GameService {
       return of({ id: 4, currentPlayerId: 1, questionCounter: 3, categories: [ 'Kultur'], users: [ {id: 1, name: 'user1'}, {id: 2, name: 'user2'}, { id: 4, name: 'user4' } ], status: 0});
     }
     return null;
+  }
+
+  getQuestions(gameId: number): Observable<any>{
+    this.setHeaders(this.userService.token);
+    console.log("in gameservice before http");
+    console.log('Auth:'+this.httpOptionsObject.headers.get('Authorization'));
+    return this.http.post<any>(this.serverUrl + this.gameUrl + 'questions/',{gameId: gameId}, this.httpOptionsObject);
   }
 
   createNewGame(ids: number[], categories: number[]): Observable<Game>{
