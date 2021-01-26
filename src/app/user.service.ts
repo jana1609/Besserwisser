@@ -12,7 +12,7 @@ export class UserService {
   private userUrl = 'user/';
   private searchUrl = 'search/';
   private loginUrl = 'login/';
-  private registerUrl = 'register/';
+  private registerUrl = 'register';
 
   token: string; // Use for authentication later
   loggedIn: User = {id: 1, name: 'user1'};
@@ -73,13 +73,13 @@ export class UserService {
     };
   }
 
-  loginUser(){
-    return this.http.post<User>(this.serverUrl + this.loginUrl, this.httpOptions);
-    // todo by Jana
+  loginUser(u, p){
+    const body = {username: u, password: p}
+    return this.http.post<any>(this.serverUrl + this.loginUrl, body);
   }
 
-  addUser(){
-    return this.http.post<User>(this.serverUrl + this.registerUrl, this.httpOptions);
-    // todo by Jana
+  addUser(u, p){
+    console.log("at user service")
+    return this.http.post<any>(this.serverUrl + this.registerUrl,{username: u, password: p}, this.httpOptionsObject);
   }
 }
