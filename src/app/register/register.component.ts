@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit {
           res => {
               this.userService.loggedIn.id = res.id;
               this.userService.loggedIn.name = username;
-              this._snackBar.open(username + " logged in successfully!");
+              this._snackBar.open(username + " registered successfully!",'Register',{duration: 2000,});
           },
           error => {
             console.log(error);

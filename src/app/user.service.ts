@@ -27,6 +27,27 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  private setHeaders(token: string): void{
+    this.httpOptionsObject = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': token })
+    };
+    this.httpOptions = {
+      headers: new HttpHeaders({'Authorization': token})
+    };
+  }
+
+  loginUser(u, p):any {
+    return this.http.post<any>(this.serverUrl + this.loginUrl, {username: u, password: p});
+  }
+
+  addUser(u, p){
+    return this.http.post<any>(this.serverUrl + this.registerUrl,{username: u, password: p}, this.httpOptionsObject);
+  }
+
+  setToken(newToken){
+    this.token = newToken;
+  }
+
   searchForUsers(term: string): Observable<User[]>{
     // return this.http.get<User[]>(this.serverUrl + this.userUrl + this.searchUrl + term, this.httpOptionsObject);
     return of([{id: 2, name: 'user2'}, {id: 3, name: 'user3'}, {id: 4, name: 'user4'}]);
@@ -64,23 +85,4 @@ export class UserService {
     }
   }
 
-  private setHeaders(token: string): void{
-    this.httpOptionsObject = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': token })
-    };
-    this.httpOptions = {
-      headers: new HttpHeaders({'Authorization': token})
-    };
-  }
-
-  loginUser(u, p):any {
-    const body = {username: u, password: p}
-    //todo wie setz ich die id als token zum auth.
-    return this.http.post<any>(this.serverUrl + this.loginUrl, body);
-  }
-
-  addUser(u, p){
-    console.log("at user service")
-    return this.http.post<any>(this.serverUrl + this.registerUrl,{username: u, password: p}, this.httpOptionsObject);
-  }
 }
