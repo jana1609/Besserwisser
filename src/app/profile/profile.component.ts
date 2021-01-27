@@ -55,12 +55,10 @@ printErrMsg(err: string){
     }else{
       this.UserService.changeUsername(username).subscribe(
         res => {
-          this._snackBar.open('Erfolgreiche Umbennenung');
-
+          this._snackBar.open('Erfolgreiche Umbennenung', 'Success', {duration: 2000});
         } 
-        ,err => {
-          this._snackBar.open('Ein Fehler ist aufgetreten');
-
+        ,err => { 
+          this._snackBar.open('Ein Fehler ist aufgetreten', 'Error', {duration: 2000});
         }
       );
     }
@@ -73,7 +71,14 @@ printErrMsg(err: string){
     }else if(password != confirmPassword){
       this.printErrMsg("Passwords do not match!");
     }else {
-      this.UserService.changePassword(password).subscribe;
+      this.UserService.changePassword(password).subscribe(
+        res => {
+          this._snackBar.open('Passwort erfolgreich geändert', 'Success', {duration: 2000});
+        }
+        ,err => {
+          this._snackBar.open('Ein Fehler ist aufgetreten', 'Error', {duration: 2000});
+        }
+      )
       
     }
   }
@@ -83,7 +88,15 @@ printErrMsg(err: string){
     let confirmVar = confirm("Wollen Sie wirklich Ihren Nutzer löschen?")
 
     if (confirmVar == true){
-      this.UserService.deleteUser().subscribe;
+      this.UserService.deleteUser().subscribe(
+        res => {
+          this.route.navigateByUrl('/startpage');
+          this._snackBar.open('Nutzer erfolgreich gelöscht', 'Success', {duration: 2000});
+        }
+        ,err => {
+          this._snackBar.open('Ein Fehler ist aufgetreten', 'Error', {duration: 2000});
+        }
+      )
 
     }
   }

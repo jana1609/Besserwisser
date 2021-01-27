@@ -13,6 +13,7 @@ export class UserService {
   private searchUrl = 'search/';
   private loginUrl = 'login/';
   private registerUrl = 'register';
+  private pwchangeUrl = 'pwchange/';
 
   token: string = ""; // Use for authentication later
   loggedIn: User = {id: 1, name: 'user1'};
@@ -86,18 +87,17 @@ export class UserService {
   }
   changeUsername(u): Observable<any>{
     this.setHeaders(this.token);
-    const body = {username: u};
-    return this.http.post<any>(this.serverUrl + this.userUrl, body, this.httpOptionsObject);
+    return this.http.post<any>(this.serverUrl + this.userUrl, {username: u}, this.httpOptionsObject);
   }
 
-  changePassword(p){
+  changePassword(p): Observable<any>{
     this.setHeaders(this.token);
-    const body = {password: p};
-    return this.http.put<any>(this.serverUrl + this.userUrl, body, this.httpOptionsObject);
+    return this.http.post<any>(this.serverUrl + this.pwchangeUrl, {password: p}, this.httpOptionsObject);
 
   }
 
-  deleteUser(){
+  deleteUser(): Observable<any>{
+    this.setHeaders(this.token);
     return this.http.delete<any>(this.serverUrl + this.userUrl, this.httpOptionsObject);
   }
 }
