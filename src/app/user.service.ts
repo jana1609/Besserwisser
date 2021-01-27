@@ -84,18 +84,19 @@ export class UserService {
   }
 
 
-  changeUsername(u){
+  changeUsername(u): Observable<any>{
+    this.setHeaders(this.token)
     const body = {username: u}
-    return this.http.put<any>(this.serverUrl, body)
+    return this.http.post<any>(this.serverUrl + this.userUrl, body)
   }
 
   changePassword(p){
     const body = {password: p}
-    return this.http.put<any>(this.serverUrl, body)
+    return this.http.put<any>(this.serverUrl + this.userUrl, body)
 
   }
 
   deleteUser(){
-    return this.http.delete<any>(this.serverUrl, this.httpOptionsObject);
+    return this.http.delete<any>(this.serverUrl + this.userUrl, this.httpOptionsObject);
   }
 }

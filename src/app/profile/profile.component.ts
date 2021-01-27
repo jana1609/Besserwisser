@@ -53,7 +53,16 @@ printErrMsg(err: string){
     if(username.length === 0){
       this.printErrMsg("No Username entered")
     }else{
-      this.UserService.changeUsername(username).subscribe();
+      this.UserService.changeUsername(username).subscribe(
+        res => {
+          this._snackBar.open('Erfolgreiche Umbennenung');
+
+        } 
+        ,err => {
+          this._snackBar.open('Ein Fehler ist aufgetreten');
+
+        }
+      );
     }
 
   }
@@ -71,7 +80,7 @@ printErrMsg(err: string){
 
   deleteUserInfo(){
     
-    let confirmVar = confirm("You are about to delete your UserInfo!")
+    let confirmVar = confirm("Wollen Sie wirklich Ihren Nutzer löschen?")
 
     if (confirmVar == true){
       this.UserService.deleteUser().subscribe;
