@@ -36,8 +36,7 @@ const routes: Routes = [
     DashboardComponent,
     ProfileComponent,
     GameComponent,
-    StartpageComponent
-
+    StartpageComponent,
   ],
   imports: [
     BrowserModule,

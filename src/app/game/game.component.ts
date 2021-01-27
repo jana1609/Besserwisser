@@ -15,7 +15,7 @@ export class GameComponent implements OnInit {
   //Definition for game elements
 
   everythingOK = true;
-  gameId;
+  gameId = 1;
 
   //Counter
   questionCount: number;
@@ -42,15 +42,22 @@ export class GameComponent implements OnInit {
   constructor(private route: Router, private gameService: GameService, private activatedRoute: ActivatedRoute) {
     this.everythingOK = true;
     this.activatedRoute.queryParams.subscribe(params => {
-      if (params['gameId'] != undefined) {
+      let gameId = params['gameId'];
+      if (gameId == undefined) {}
+      else {
         this.gameId = params['gameId'];
+
       }
       console.log('id: ' + this.gameId);
-      this.route.navigateByUrl('/game');
     });
+
   }
 
   ngOnInit(): void {
+    this.loadQuestions();
+  }
+
+  loadQuestions(){
     this.gameService.getQuestions(this.gameId).subscribe(res => {
       console.log('in subscribe');
       this.questions = res.questions;
@@ -59,9 +66,9 @@ export class GameComponent implements OnInit {
       this.questionCount = 3;
       this.questionCountUi = 0; // Arrays fangen mit wert 0 an, deswegen einfachheitshalber auch counter bei 0 anfangen
       this.scored = 0;
-      this.gameService.updateGameStatus(1, this.gameId).subscribe(res => {
+      /*this.gameService.updateGameStatus(1, this.gameId).subscribe(res => {
       }, error => {
-      });
+      });*/
       this.showQuestion();
     }, err => {
       this.everythingOK = false;
