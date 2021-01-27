@@ -59,11 +59,9 @@ export class GameComponent implements OnInit {
 
   loadQuestions(){
     this.gameService.getQuestions(this.gameId).subscribe(res => {
-      console.log('in subscribe');
-      this.questions = res.questions;
+      this.questions = JSON.parse(res.questions);
       this.questionCount = res.numberQuestions;
       this.categoryName = res.categoryName;
-      this.questionCount = 3;
       this.questionCountUi = 0; // Arrays fangen mit wert 0 an, deswegen einfachheitshalber auch counter bei 0 anfangen
       this.scored = 0;
       /*this.gameService.updateGameStatus(1, this.gameId).subscribe(res => {
@@ -89,16 +87,6 @@ export class GameComponent implements OnInit {
     }
     this.questionCount--;
     this.questionCountUi++;
-
-    /**
-     * TODO
-     * questionCount --
-     * Check if answer is correct
-     * Send information to server
-     * Show user the correct answer
-     * Enable next button to let the user continue
-     */
-
   }
 
   //Method to continue -> either next question or dashboard
@@ -125,9 +113,11 @@ export class GameComponent implements OnInit {
     this.questionText = currentQuestion.text;
     console.log('text: ' + this.questionText);
     for (let i = 0; i < 4; i++) {
-      this.answers[i] = currentQuestion.answers[i];
+      this.answers[i] = currentQuestion.answers[i+1];
     }
-    this.correctAnswer = currentQuestion.correct;
+    console.log(this.answers);
+    this.correctAnswer = currentQuestion.correct-1;
+    console.log(this.correctAnswer);
   }
 
 }
