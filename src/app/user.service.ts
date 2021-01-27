@@ -85,14 +85,15 @@ export class UserService {
     }
   }
   changeUsername(u): Observable<any>{
-    this.setHeaders(this.token)
-    const body = {username: u}
-    return this.http.post<any>(this.serverUrl + this.userUrl, body)
+    this.setHeaders(this.token);
+    const body = {username: u};
+    return this.http.post<any>(this.serverUrl + this.userUrl, body, this.httpOptionsObject);
   }
 
   changePassword(p){
-    const body = {password: p}
-    return this.http.put<any>(this.serverUrl + this.userUrl, body)
+    this.setHeaders(this.token);
+    const body = {password: p};
+    return this.http.put<any>(this.serverUrl + this.userUrl, body, this.httpOptionsObject);
 
   }
 
