@@ -40,3 +40,8 @@ mat-card-subtitle {
   display: flex;
   justify-content: center;
 }
+
+mat-card-content {
+  display: flex;
+  justify-content: center;
+}
