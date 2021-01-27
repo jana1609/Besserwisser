@@ -5,6 +5,7 @@ import {Invite} from './models/invite';
 import {InviteRes} from './models/inviteres';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {UserService} from './user.service';
+import {Category} from './models/category';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,13 @@ export class GameService {
   private serverUrl = 'https://besserwisser.herokuapp.com/';
   private inviteUrl = 'invite/';
   private gameUrl = 'game/';
+  private categoriesUrl = 'categories/';
 
   constructor(private http: HttpClient, private userService: UserService) { }
+
+  getCategories(): Observable<Category[]>{
+    return this.http.get<Category[]>(this.serverUrl + this.gameUrl + this.categoriesUrl, this.userService.httpOptionsObject);
+  }
 
   getGamesOfUser(): Observable<Game[]> {
     return this.http.get<Game[]>(this.serverUrl + this.gameUrl, this.userService.httpOptions);

@@ -7,7 +7,6 @@ import {UserService} from '../user.service';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Invite} from '../models/invite';
 import {Category} from '../models/category';
-import {CategoriesService} from '../categories.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,14 +23,14 @@ export class DashboardComponent implements OnInit {
   invites: Invite[] = [];
   categories: CategoryListItem[];
 
-  constructor(private userService: UserService, private gameService: GameService, private categoriesService: CategoriesService) { }
+  constructor(private userService: UserService, private gameService: GameService) { }
 
   ngOnInit(): void {
     this.user = this.userService.loggedIn;
     if (this.user){
       this.updateInvites();
       this.updateGames();
-      this.categoriesService.getCategories().subscribe(categories => this.updateCategories(categories));
+      this.gameService.getCategories().subscribe(categories => this.updateCategories(categories));
     }
     this.searchedUsers$ = this.searchTerms.pipe(
       debounceTime(300),
