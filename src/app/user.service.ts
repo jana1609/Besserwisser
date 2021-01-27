@@ -14,7 +14,7 @@ export class UserService {
   private loginUrl = 'login/';
   private registerUrl = 'register';
 
-  token: string; // Use for authentication later
+  token: string = ""; // Use for authentication later
   loggedIn: User = {id: 1, name: 'user1'};
 
   private httpOptionsObject = {
@@ -26,6 +26,27 @@ export class UserService {
   };
 
   constructor(private http: HttpClient) { }
+
+  private setHeaders(token: string): void{
+    this.httpOptionsObject = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': token })
+    };
+    this.httpOptions = {
+      headers: new HttpHeaders({'Authorization': token})
+    };
+  }
+
+  loginUser(u, p):any {
+    return this.http.post<any>(this.serverUrl + this.loginUrl, {username: u, password: p});
+  }
+
+  addUser(u, p){
+    return this.http.post<any>(this.serverUrl + this.registerUrl,{username: u, password: p}, this.httpOptionsObject);
+  }
+
+  setToken(newToken){
+    this.token = newToken;
+  }
 
   searchForUsers(term: string): Observable<User[]>{
     // return this.http.get<User[]>(this.serverUrl + this.userUrl + this.searchUrl + term, this.httpOptionsObject);
@@ -63,27 +84,6 @@ export class UserService {
       return null;
     }
   }
-
-  private setHeaders(token: string): void{
-    this.httpOptionsObject = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': token })
-    };
-    this.httpOptions = {
-      headers: new HttpHeaders({'Authorization': token})
-    };
-  }
-
-  loginUser(u, p){
-    const body = {username: u, password: p}
-    return this.http.post<any>(this.serverUrl + this.loginUrl, body);
-  }
-
-  addUser(u, p){
-    console.log("at user service")
-    return this.http.post<any>(this.serverUrl + this.registerUrl,{username: u, password: p}, this.httpOptionsObject);
-  }
-
-
   changeUsername(u): Observable<any>{
     this.setHeaders(this.token)
     const body = {username: u}

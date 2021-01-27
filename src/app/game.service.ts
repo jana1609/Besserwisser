@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {Game} from './models/game';
 import {Invite} from './models/invite';
 import {InviteRes} from './models/inviteres';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {UserService} from './user.service';
 
 @Injectable({
@@ -14,27 +14,65 @@ export class GameService {
   private serverUrl = 'https://besserwisser.herokuapp.com/';
   private inviteUrl = 'invite/';
   private gameUrl = 'game/';
+  private gameplayUrl = 'gameplay/';
 
   private httpOptionsObject = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': this.userService.token })
+    headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.userService.token})
   };
 
   private httpOptions = {
     headers: new HttpHeaders({'Authorization': this.userService.token})
   };
 
-  constructor(private http: HttpClient, private userService: UserService) { }
+  private setHeaders(token: string): void {
+    this.httpOptionsObject = {
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': token})
+    };
+    this.httpOptions = {
+      headers: new HttpHeaders({'Authorization': token})
+    };
+  }
+
+/*
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Methods': 'POST',
+  'Access-Control-Allow-Origin': '*',*/
+
+  constructor(private http: HttpClient, private userService: UserService) {
+    this.setHeaders(this.userService.token);
+  }
 
   getGamesOfUser(): Observable<Game[]> {
     // return this.http.get<Game[]>(this.serverUrl + this.gameUrl, this.httpOptions);
-    return of([{ id: 1, currentPlayerId: 1, questionCounter: 3, categories: [ 'Allgemeinwissen', 'Geschichte', 'Wissenschaft' ], users: [ {id: 1, name: 'user1'}, { id: 2, name: 'user2' } ], status: 1},
-      { id: 2, currentPlayerId: 2, questionCounter: 3, categories: [ 'Allgemeinwissen' ], users: [ {id: 1, name: 'user1'}, { id: 3, name: 'user3' } ], status: 1},
-      { id: 3, currentPlayerId: 0, questionCounter: 3, categories: [ 'Geschichte'], users: [ {id: 1, name: 'user1'}, {id: 3, name: 'user3'}, { id: 4, name: 'user4' } ], status: 0}]);
+    return of([{
+      id: 1,
+      currentPlayerId: 1,
+      questionCounter: 3,
+      categories: ['Allgemeinwissen', 'Geschichte', 'Wissenschaft'],
+      users: [{id: 1, name: 'user1'}, {id: 2, name: 'user2'}],
+      status: 1
+    },
+      {
+        id: 2,
+        currentPlayerId: 2,
+        questionCounter: 3,
+        categories: ['Allgemeinwissen'],
+        users: [{id: 1, name: 'user1'}, {id: 3, name: 'user3'}],
+        status: 1
+      },
+      {
+        id: 3,
+        currentPlayerId: 0,
+        questionCounter: 3,
+        categories: ['Geschichte'],
+        users: [{id: 1, name: 'user1'}, {id: 3, name: 'user3'}, {id: 4, name: 'user4'}],
+        status: 0
+      }]);
   }
 
-  getInvitesOfUser(): Observable<Invite[]>{
+  getInvitesOfUser(): Observable<Invite[]> {
     // return this.http.get<Invite[]>(this.serverUrl + this.inviteUrl, this.httpOptions);
-    return of([{ id: 1, gameId: 4, userId: 1, names: ['user1', 'user2', 'user4'], categories: ['Kultur']}]);
+    return of([{id: 1, gameId: 4, userId: 1, names: ['user1', 'user2', 'user4'], categories: ['Kultur']}]);
   }
 
   acceptInvite(id: number): Observable<InviteRes> {
@@ -47,16 +85,41 @@ export class GameService {
     return of({id: 1, gameId: 4});
   }
 
-  getGame(id: number): Observable<Game>{
+  getGame(id: number): Observable<Game> {
     // return this.http.get<Game>(this.serverUrl + this.gameUrl + id, this.httpOptions);
-    if (id === 4){
-      return of({ id: 4, currentPlayerId: 1, questionCounter: 3, categories: [ 'Kultur'], users: [ {id: 1, name: 'user1'}, {id: 2, name: 'user2'}, { id: 4, name: 'user4' } ], status: 0});
+    if (id === 4) {
+      return of({
+        id: 4,
+        currentPlayerId: 1,
+        questionCounter: 3,
+        categories: ['Kultur'],
+        users: [{id: 1, name: 'user1'}, {id: 2, name: 'user2'}, {id: 4, name: 'user4'}],
+        status: 0
+      });
     }
     return null;
   }
 
-  createNewGame(ids: number[], categories: number[]): Observable<Game>{
+  createNewGame(ids: number[], categories: number[]): Observable<Game> {
     // return this.http.post<Game>(this.serverUrl + this.gameUrl, { users: ids, categories: categories}, this.httpOptionsObject);
-    return of({ id: 5, currentPlayerId: 0, questionCounter: 3, categories: [ 'Sport'], users: [ {id: 1, name: 'user1'}, {id: 2, name: 'user2'}], status: 0});
+    return of({
+      id: 5,
+      currentPlayerId: 0,
+      questionCounter: 3,
+      categories: ['Sport'],
+      users: [{id: 1, name: 'user1'}, {id: 2, name: 'user2'}],
+      status: 0
+    });
   }
+
+  getQuestions(gameId: number): Observable<any> {
+    this.setHeaders(this.userService.token);
+    return this.http.post<any>(this.serverUrl + this.gameplayUrl, {gameId: gameId}, this.httpOptionsObject);
+  }
+
+  updateGameStatus(status: number, gameId: number): Observable<any> {
+    this.setHeaders(this.userService.token);
+    return this.http.post<any>(this.serverUrl + 'gameplay/' + 'status', {status: status, id: gameId}, this.httpOptionsObject);
+  }
+
 }
