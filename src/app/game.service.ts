@@ -19,11 +19,11 @@ export class GameService {
   private gameplayUrl = 'gameplay/';
 
   private httpOptionsObject = {
-    headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.userService.token})
+    headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': UserService.token})
   };
 
   private httpOptions = {
-    headers: new HttpHeaders({'Authorization': this.userService.token})
+    headers: new HttpHeaders({ 'Authorization': UserService.token })
   };
 
   private setHeaders(token: string): void {
@@ -41,7 +41,7 @@ export class GameService {
   'Access-Control-Allow-Origin': '*',*/
 
   constructor(private http: HttpClient, private userService: UserService) {
-    this.setHeaders(this.userService.token);
+    this.setHeaders(UserService.token);
   }
 
   getCategories(): Observable<Category[]>{
@@ -73,12 +73,12 @@ export class GameService {
   }
 
   getQuestions(gameId: number): Observable<any> {
-    this.setHeaders(this.userService.token);
+    this.setHeaders(UserService.token);
     return this.http.post<any>(this.serverUrl + this.gameplayUrl, {gameId: gameId}, this.httpOptionsObject);
   }
 
   updateGameStatus(status: number, gameId: number): Observable<any> {
-    this.setHeaders(this.userService.token);
+    this.setHeaders(UserService.token);
     return this.http.post<any>(this.serverUrl + 'gameplay/' + 'status', {status: status, id: gameId}, this.httpOptionsObject);
   }
 

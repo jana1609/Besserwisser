@@ -1,0 +1,44 @@
+<mat-card class="selection">
+  <mat-card-title class="selection_title">
+    Fragenfilter:
+  </mat-card-title>
+
+  <mat-card-content class="selection_content">
+
+    <div *ngIf="true">
+      <section class="selection_boxes">
+        <div *ngFor="let category of categories | async">
+          <mat-checkbox class="checkbox_margin" name="{{category.id}}" id="checkbox-show-{{category.id}}" (change)="onFilterUpdate($event)"></mat-checkbox>
+          <label for="checkbox-show-{{category.id}}">{{category.name}}</label>
+        </div>
+      </section>
+    </div>
+
+  </mat-card-content>
+  <button mat-button (click)="onOpenEditor(null)">Frage erstellen</button>
+</mat-card>
+
+<div *ngFor="let question of questions | async">
+  <div *ngIf="!filtersActive || filterState[question.categoryId]">
+    <mat-card class="question_card">
+      <mat-card-header>
+        <mat-card-subtitle>
+          <p>{{question.text}}</p>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngFor="let answer of (question.answers | keys); trackBy: trackItem">
+          {{answer.key}} - {{answer.value}}
+        </div>
+        <div>
+          Richtig: {{question.correct}}
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="onOpenEditor(question)">Frage bearbeiten</button>
+        <button mat-button (click)="onDeleteQuestionClick(question)">Frage löschen</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+

@@ -17,7 +17,7 @@ export class UserService {
   private friendsUrl = 'friends/';
   private friendrequestUrl = 'request/';
 
-  token: string = ""; // Use for authentication later
+  static token: string = localStorage.getItem('jwt'); // Use for authentication later
   loggedIn: User = {id: 1, name: 'user1'};
 
   httpOptionsObject = {
@@ -28,10 +28,15 @@ export class UserService {
     headers: new HttpHeaders()
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    let initialJwt = localStorage.getItem('jwt');
 
-  searchForFriendsAndUsers(term: string): Observable<User[]>{
+    this.setToken(initialJwt, false);
+  }
+
+  searchForFriendsAndUsers(term: string): Observable<User[]> {
     return this.http.get<User[]>(this.serverUrl + this.userUrl + this.searchUrl + term, this.httpOptions);
+  }
     
   private setHeaders(token: string): void{
     this.httpOptionsObject = {
@@ -50,8 +55,12 @@ export class UserService {
     return this.http.post<any>(this.serverUrl + this.registerUrl,{username: u, password: p}, this.httpOptionsObject);
   }
 
-  setToken(newToken){
-    this.token = newToken;
+  setToken(newToken, update = true){
+    UserService.token = newToken;
+
+    this.setHeaders(newToken);
+
+    if (update) localStorage.setItem('jwt', newToken);
   }
 
   searchForUsers(term: string): Observable<User[]>{

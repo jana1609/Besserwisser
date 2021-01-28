@@ -59,8 +59,8 @@ export class RegisterComponent implements OnInit {
 
         this.userService.addUser(username, password).subscribe(
           res => {
-              this.userService.loggedIn.id = res.id;
-              this.userService.loggedIn.name = username;
+              UserService.loggedIn.id = res.id;
+              UserService.loggedIn.name = username;
               this._snackBar.open(username + " registered successfully!",'Register',{duration: 2000,});
           },
           error => {
@@ -68,7 +68,7 @@ export class RegisterComponent implements OnInit {
             this.printErrMsg("Register failed try again!");
           }
         );
-        if(this.userService.loggedIn!= null) {
+      if (UserService.loggedIn!= null) {
           this.route.navigateByUrl('/login');
         }
         else {
