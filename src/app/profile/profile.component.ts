@@ -29,16 +29,16 @@ confirm(firstInput, secondInput){
 
 getErrorMessage(){
   if(this.p.hasError('required')){
-    return 'You must enter a password!';
+    return 'Kein Passwort eingegeben!';
   }
   else if(this.p.hasError('minlength')){
-    return 'Password min length is 8!';
+    return 'Mindestens 8 Zeichen benötigt!';
   }
   else if(this.p.hasError('noNumber')){
-    return 'Password requires a number!';
+    return 'Passwort benötigt eine Zahl!';
   }
   else if(this.p.hasError('noSymbol')){
-    return 'Password requires a symbol!';
+    return 'Passwort benötigt ein Sonderzeichen!';
   }
 }
 
@@ -84,7 +84,6 @@ printErrMsg(err: string){
   }
 
   deleteUserInfo(){
-    
     let confirmVar = confirm("Wollen Sie wirklich Ihren Nutzer löschen?")
 
     if (confirmVar == true){
