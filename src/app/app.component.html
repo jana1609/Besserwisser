@@ -9,6 +9,7 @@
     <button *ngIf="userService.loggedIn" mat-flat-button color="primary" routerLink="/dashboard">Dashboard</button>
     <button *ngIf="userService.loggedIn" mat-flat-button color="primary" routerLink="/friends">Friends</button>
     <button *ngIf="userService.loggedIn" mat-flat-button color="primary" routerLink="/profile">Profile</button>
+    <button *ngIf="userService.loggedIn" mat-flat-button color="primary" routerLink="/admin">Admin</button>
     <button *ngIf="userService.loggedIn" mat-flat-button color="primary" (click)="logout()">Logout</button>
   </div>
 </mat-toolbar>

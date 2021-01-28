@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>Frage</h1>
+<div mat-dialog-content class="qed-content">
+  <mat-form-field class="qed-input">
+    <mat-select required placeholder="Kategorie" [(ngModel)]="data.question.categoryId">
+      <mat-option *ngFor="let category of data.categories | async" value={{category.id}}>
+        {{category.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="qed-input">
+    <input matInput required placeholder="Text" [(ngModel)]="data.question.text" />
+  </mat-form-field>
+  <mat-card>
+    <mat-card-content>
+      <mat-form-field class="qed-input">
+        <input required matInput placeholder="Antwort 1" [(ngModel)]="data.question.answers['1']" />
+      </mat-form-field>
+      <mat-form-field class="qed-input">
+        <input required matInput placeholder="Antwort 2" [(ngModel)]="data.question.answers['2']" />
+      </mat-form-field>
+      <mat-form-field class="qed-input">
+        <input required matInput placeholder="Antwort 3" [(ngModel)]="data.question.answers['3']" />
+      </mat-form-field>
+      <mat-form-field class="qed-input">
+        <input required matInput placeholder="Antwort 4" [(ngModel)]="data.question.answers['4']" />
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+  <mat-form-field class="qed-input">
+    <mat-select required placeholder="Richtige Antwort" [(ngModel)]="data.question.correct">
+      <mat-option value="1">Antwort 1</mat-option>
+      <mat-option value="2">Antwort 2</mat-option>
+      <mat-option value="3">Antwort 3</mat-option>
+      <mat-option value="4">Antwort 4</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="qed-content">
+  <button mat-button (click)="onSaveClick()">Speichern</button>
+  <button mat-button (click)="onCancelClick()">Verwerfen</button>
+</div>
