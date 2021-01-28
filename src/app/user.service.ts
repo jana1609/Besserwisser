@@ -106,18 +106,21 @@ export class UserService {
   }
 
   changeUsername(u): Observable<any>{
-    this.setHeaders(this.token);
+    this.setHeaders(UserService.token);
     return this.http.post<any>(this.serverUrl + this.userUrl, {username: u}, this.httpOptionsObject);
   }
 
   changePassword(p): Observable<any>{
-    this.setHeaders(this.token);
+    this.setHeaders(UserService.token);
     return this.http.post<any>(this.serverUrl + this.pwchangeUrl, {password: p}, this.httpOptionsObject);
-
   }
 
   deleteUser(): Observable<any>{
-    this.setHeaders(this.token);
+    this.setHeaders(UserService.token);
     return this.http.delete<any>(this.serverUrl + this.userUrl, this.httpOptionsObject);
+  }
+
+  setLoggedIn(user: User): void {
+    this.loggedIn = user;
   }
 }
