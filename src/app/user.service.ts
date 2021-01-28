@@ -14,6 +14,7 @@ export class UserService {
   private searchUrl = 'search/';
   private loginUrl = 'login/';
   private registerUrl = 'register';
+  private pwchangeUrl = 'pwchange/';
   private friendsUrl = 'friends/';
   private friendrequestUrl = 'request/';
 
@@ -94,5 +95,19 @@ export class UserService {
   declineFriendRequest(id: number): Observable<FriendRequest> {
     return this.http.put<FriendRequest>(this.serverUrl + this.friendsUrl + this.friendrequestUrl + id, { status: -1 }, this.httpOptionsObject);
   }
+  changeUsername(u): Observable<any>{
+    this.setHeaders(this.token);
+    return this.http.post<any>(this.serverUrl + this.userUrl, {username: u}, this.httpOptionsObject);
+  }
 
+  changePassword(p): Observable<any>{
+    this.setHeaders(this.token);
+    return this.http.post<any>(this.serverUrl + this.pwchangeUrl, {password: p}, this.httpOptionsObject);
+
+  }
+
+  deleteUser(): Observable<any>{
+    this.setHeaders(this.token);
+    return this.http.delete<any>(this.serverUrl + this.userUrl, this.httpOptionsObject);
+  }
 }

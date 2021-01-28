@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit {
 
   hide = true;
   hideconfirm = true;
+  hidedelete = true;
   errMsg: string = "";
   user: User;
 

@@ -6,3 +6,11 @@
 .profile-button{
     display: flex;
 }
+.errMsg{
+    display: flex;
+    justify-content: center;
+}
+mat-card{
+    
+    min-width: 250px;
+}
