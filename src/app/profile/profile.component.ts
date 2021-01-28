@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, ValidatorFn, Validators } from "@angular/Forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { User } from "../models/user";
+import { UserService } from "../user.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -7,44 +12,110 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  /**
-   * TODO
-   * IF VALID INPUT -> PUT HTTP REQUEST
-   * INVALID NO CHANGE 
-   * GET INPUT FROM TEXTINPUT
-   */
+hide = true;
+hideconfirm = true;
+hidedelete = true;
+errMsg: string = "";
+user: User; 
 
-  updateUsername(){
-    window.alert('This will update the username.');
+p = new FormControl('', [
+  Validators.required, Validators.minLength(8),
+  containsNumberValidator(), containsSymbolValidator()
+])
+
+confirm(firstInput, secondInput){
+  return firstInput === secondInput;
+}
+
+getErrorMessage(){
+  if(this.p.hasError('required')){
+    return 'Kein Passwort eingegeben!';
+  }
+  else if(this.p.hasError('minlength')){
+    return 'Mindestens 8 Zeichen benötigt!';
+  }
+  else if(this.p.hasError('noNumber')){
+    return 'Passwort benötigt eine Zahl!';
+  }
+  else if(this.p.hasError('noSymbol')){
+    return 'Passwort benötigt ein Sonderzeichen!';
+  }
+}
+
+printErrMsg(err: string){
+  this.errMsg = err;
+}
+
+
+  constructor(private _snackBar: MatSnackBar, private UserService: UserService, private route: Router) {} 
+
+  updateUsername(username){
+    if(username.length === 0){
+      this.printErrMsg("No Username entered")
+    }else{
+      this.UserService.changeUsername(username).subscribe(
+        res => {
+          this._snackBar.open('Erfolgreiche Umbennenung', 'Success', {duration: 2000});
+        } 
+        ,err => { 
+          this._snackBar.open('Ein Fehler ist aufgetreten', 'Error', {duration: 2000});
+        }
+      );
+    }
 
   }
 
-  /**
-   * TODO
-   * CHECK IF VALID INPUT -> PASSWORD RULES
-   * CHECK IF NEW PASSWORD == CONFIRM PASSWORD 
-   * THEN UPDATE 
-   * IF INVALID -> ERROR HANDLING 
-   */
-
-  updatePassword(){
-    window.alert('This will change the password.');
-
+  updatePassword(password, confirmPassword){
+    if(this.p.invalid){
+      this.printErrMsg("Password not valid!");
+    }else if(password != confirmPassword){
+      this.printErrMsg("Passwords do not match!");
+    }else {
+      this.UserService.changePassword(password).subscribe(
+        res => {
+          this._snackBar.open('Passwort erfolgreich geändert', 'Success', {duration: 2000});
+        }
+        ,err => {
+          this._snackBar.open('Ein Fehler ist aufgetreten', 'Error', {duration: 2000});
+        }
+      )
+      
+    }
   }
 
-  /**
-   * CHECK IF PASSWORD INPUT IS CORRECT 
-   * DELETE USER -> DELETE HTTP REQUEST
-   */
+  deleteUserInfo(){
+    let confirmVar = confirm("Wollen Sie wirklich Ihren Nutzer löschen?")
 
-  deleteUser(){
-    window.alert('This will delete the userinfo.');
+    if (confirmVar == true){
+      this.UserService.deleteUser().subscribe(
+        res => {
+          this.route.navigateByUrl('/startpage');
+          this._snackBar.open('Nutzer erfolgreich gelöscht', 'Success', {duration: 2000});
+        }
+        ,err => {
+          this._snackBar.open('Ein Fehler ist aufgetreten', 'Error', {duration: 2000});
+        }
+      )
 
+    }
   }
 
-  constructor() { }
 
   ngOnInit(): void {
   }
 
+}
+
+export function containsNumberValidator(): ValidatorFn {
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    const forbidden = !/\d/.test(control.value);
+    return forbidden ? {noNumber: {value: control.value}} : null;
+  };
+}
+
+export function containsSymbolValidator(): ValidatorFn {
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    const forbidden = !/[\s~`!@#$%\^&*=\-\[\]\\';,/{}|\\":<>\?()\._]/.test(control.value);
+    return forbidden ? {noSymbol: {value: control.value}} : null;
+  };
 }

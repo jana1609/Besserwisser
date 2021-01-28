@@ -4,13 +4,13 @@
         Username
     </mat-card-title>
     <mat-card-content>
-        <p>Current Username</p>
+        <p>Neuen Username eingeben</p>
         <mat-form-field appearance="fill" >
-            <mat-label>New Username</mat-label>
-            <input type="text" matInput>  
+            <mat-label>Neuer Username</mat-label>
+            <input #username type="text" matInput>  
         </mat-form-field>
         <div class="profile-button">
-        <button mat-raised-button color="primary" (click) = "updateUsername()" >Change Username</button>
+        <button mat-raised-button color="primary" (click) = "updateUsername(username.value)" >Username ändern</button>
         </div>
     </mat-card-content>
 </mat-card>
@@ -19,20 +19,30 @@
 <div class="profile-card">
 <mat-card>
     <mat-card-title>
-        Password
+        Passwort
     </mat-card-title>
     <mat-card-content>
+        <p>Neues Password eingeben</p>
         <mat-form-field appearance="fill">
-        <mat-label>New Password</mat-label>
-        <input type="password" matInput>
+        <mat-label>Neues Passwort</mat-label>
+        <input #password [formControl]="p" [type]="hide ? 'password' : 'text'" matInput>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria.label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="p.invalid">{{getErrorMessage()}}</mat-error>
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill">
-        <mat-label>Confirm Password</mat-label>
-        <input type="password" matInput>
+        <mat-label>Passwort bestätigen</mat-label>
+        <input #confirmPassword [type]="hideconfirm ? 'password' : 'text'" matInput>
+        <button mat-icon-button matSuffix (click)="hideconfirm = !hideconfirm" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideconfirm">
+            <mat-icon>{{hideconfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-hint *ngIf="!confirm(password.value, confirmPassword.value)">Keine Übereinstimmung</mat-hint>
         </mat-form-field>
+        <div class ="errMsg">{{errMsg}}</div>
         <div class="profile-button">
-            <button mat-raised-button color="primary" (click) = "updatePassword()">Change Password</button>
+            <button mat-raised-button color="primary" (click) = "updatePassword(password.value, confirmPassword.value)">Passwort ändern</button>
         </div>
     </mat-card-content>
 </mat-card>
@@ -41,18 +51,14 @@
 <div class="profile-card">
     <mat-card>
         <mat-card-title>
-            Delete UserInfo
+            Nutzer löschen
         </mat-card-title>
         <mat-card-content>
-            <mat-form-field appearance="fill">
-                <mat-label>Password</mat-label>
-                <input type="password" matInput>
-            </mat-form-field>
+            <p></p>
             <div class="profile-button">
-                <button mat-raised-button color="primary" (click) = "deleteUser()">Delete User</button>
+                <button mat-raised-button color="primary" (click) = "deleteUserInfo()">Nutzer löschen</button>
             </div>
         </mat-card-content>
     </mat-card>
 </div>
-
 
