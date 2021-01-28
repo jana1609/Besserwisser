@@ -57,18 +57,16 @@ export class RegisterComponent implements OnInit {
     else {
       this.printErrMsg("");
 
-        this.userService.addUser(username, password).subscribe(
+      this.userService.addUser(username, password).subscribe(
           res => {
-              this.userService.loggedIn.id = res.id;
-              this.userService.loggedIn.name = username;
               this._snackBar.open(username + " registered successfully!",'Register',{duration: 2000,});
           },
           error => {
-            console.log(error);
-            this.printErrMsg("Register failed try again!");
+              console.log(error);
+              this.printErrMsg("Register failed try again!");
           }
-        );
-        if(this.userService.loggedIn!= null) {
+          );
+      if(this.userService.loggedIn!= null) {
           this.route.navigateByUrl('/login');
         }
         else {
