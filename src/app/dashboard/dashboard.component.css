@@ -3,6 +3,11 @@
   margin: 0px auto;
 }
 
+.bw-error{
+  text-align: center;
+  margin-top: 40px;
+}
+
 .bw-header{
   font-weight: 500;
   font-size: 22px;
