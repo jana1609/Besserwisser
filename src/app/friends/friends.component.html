@@ -1,43 +1,46 @@
 
 <div class="bw-page">
 
-  <div class="bw-header">Freund hinzufügen</div>
-  <mat-divider></mat-divider>
-  <mat-card class="bw-card bw-flex-row">
-    <mat-form-field class="bw-flex-grow bw-dropdown-anchor">
-      <mat-label>Spielername</mat-label>
-      <input type="text" class="bw-search-input" #playerSearch (input)="searchForUsersByName(playerSearch.value)" matInput />
-      <div class="bw-search-dropdown">
-        <a *ngFor="let user of searchedUsers$ | async" (click)="sendFriendRequestById(user.id)">{{user.name}}</a>
-      </div>
-    </mat-form-field>
-    <a mat-raised-button class="bw-button" color="primary" (click)="sendFriendRequestByName(playerSearch.value)">Freund hinzufügen</a>
-  </mat-card>
+  <div *ngIf="user">
 
-  <div class="bw-header" *ngIf="friendRequests && friendRequests.length > 0">Freundschaftsanfragen</div>
-  <mat-divider *ngIf="friendRequests && friendRequests.length > 0"></mat-divider>
-  <div *ngFor="let request of this.friendRequests">
-    <mat-card class="bw-card bw-flex-row" *ngIf="user.id == request.receiverId">
-          <span class="bw-flex-grow">
-            <span class="bw-invite-header">Neue Freundschaftsanfrage: </span>
-            <span class="bw-invite-subheader">{{request.sender.name}}</span>
-          </span>
-      <a mat-raised-button color="primary" class="bw-button" (click)="acceptFriendRequest(request.id)">Annehmen</a>
-      <a mat-raised-button color="secondary" class="bw-button" (click)="declineFriendRequest(request.id)">Ablehnen</a>
+    <div class="bw-header">Freund hinzufügen</div>
+    <mat-divider></mat-divider>
+    <mat-card class="bw-card bw-flex-row">
+      <mat-form-field class="bw-flex-grow bw-dropdown-anchor">
+        <mat-label>Spielername</mat-label>
+        <input type="text" class="bw-search-input" #playerSearch (input)="searchForUsersByName(playerSearch.value)" matInput />
+        <div class="bw-search-dropdown">
+          <a *ngFor="let user of searchedUsers$ | async" (click)="sendFriendRequestById(user.id)">{{user.name}}</a>
+        </div>
+      </mat-form-field>
+      <a mat-raised-button class="bw-button" color="primary" (click)="sendFriendRequestByName(playerSearch.value)">Freund hinzufügen</a>
+    </mat-card>
+
+    <div class="bw-header" *ngIf="friendRequests && friendRequests.length > 0">Freundschaftsanfragen</div>
+    <mat-divider *ngIf="friendRequests && friendRequests.length > 0"></mat-divider>
+    <div *ngFor="let request of this.friendRequests">
+      <mat-card class="bw-card bw-flex-row" *ngIf="user.id == request.receiverId">
+            <span class="bw-flex-grow">
+              <span class="bw-invite-header">Neue Freundschaftsanfrage: </span>
+              <span class="bw-invite-subheader">{{request.sender.name}}</span>
+            </span>
+        <a mat-raised-button color="primary" class="bw-button" (click)="acceptFriendRequest(request.id)">Annehmen</a>
+        <a mat-raised-button color="secondary" class="bw-button" (click)="declineFriendRequest(request.id)">Ablehnen</a>
+      </mat-card>
+    </div>
+
+    <div class="bw-header">Freunde</div>
+    <mat-divider></mat-divider>
+    <mat-card class="bw-card">
+      <div *ngIf="friends && friends.length === 0">
+        Deine Freundesliste ist derzeit noch leer.
+      </div>
+      <div class="bw-flex-row bw-friend" *ngFor="let friend of friends">
+        <div class="bw-flex-grow">{{friend.name}}</div>
+        <a mat-raised-button class="bw-delete" color="warn" (click)="deleteFriend(friend.id)">Freund entfernen</a>
+      </div>
     </mat-card>
   </div>
-
-  <div class="bw-header">Freunde</div>
-  <mat-divider></mat-divider>
-  <mat-card class="bw-card">
-    <div *ngIf="friends && friends.length === 0">
-      Deine Freundesliste ist derzeit noch leer.
-    </div>
-    <div class="bw-flex-row bw-friend" *ngFor="let friend of friends">
-      <div class="bw-flex-grow">{{friend.name}}</div>
-      <a mat-raised-button class="bw-delete" color="warn" (click)="deleteFriend(friend.id)">Freund entfernen</a>
-    </div>
-  </mat-card>
 
   <div *ngIf="!user" class="bw-error">
     Whoops. Something went wrong. <a routerLink="/">Back to home.</a>
