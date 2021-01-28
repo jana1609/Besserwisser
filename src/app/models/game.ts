@@ -7,4 +7,5 @@ export interface Game {
   categories: string[];
   users: User[];
   status: number;
+  finished: boolean;
 }

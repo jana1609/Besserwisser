@@ -8,7 +8,7 @@
     <mat-card class="bw-card bw-flex-row">
       <mat-form-field class="bw-flex-grow bw-dropdown-anchor">
         <mat-label>Spielername</mat-label>
-        <input type="text" class="bw-search-input" #playerSearch (input)="searchForUsersByName(playerSearch.value)" matInput />
+        <input type="text" class="bw-search-input" #playerSearch (input)="searchForUsersByName(playerSearch.value)" matInput autocomplete="off" />
         <div class="bw-search-dropdown">
           <a *ngFor="let user of searchedUsers$ | async" (click)="sendFriendRequestById(user.id)">{{user.name}}</a>
         </div>

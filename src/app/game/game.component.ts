@@ -41,11 +41,11 @@ export class GameComponent implements OnInit {
 
   constructor(private route: Router, private gameService: GameService, private activatedRoute: ActivatedRoute) {
     this.everythingOK = true;
-    this.activatedRoute.queryParams.subscribe(params => {
-      let gameId = params['gameId'];
-      if (gameId == undefined) {}
-      else {
-        this.gameId = params['gameId'];
+    this.activatedRoute.paramMap.subscribe(params => {
+      let gameId = params.get('id');
+      if (gameId === undefined) {
+      } else {
+        this.gameId = parseInt(params.get('id'), 10);
 
       }
       console.log('id: ' + this.gameId);

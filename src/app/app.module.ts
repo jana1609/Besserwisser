@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent},
   { path: '', redirectTo: '/startpage', pathMatch: 'full'},
   {path: 'profile', component: ProfileComponent},
-  {path: 'game', component: GameComponent},
+  {path: 'game/:id', component: GameComponent},
   {path: 'startpage', component: StartpageComponent},
   {path: 'friends', component: FriendsComponent}
   ];

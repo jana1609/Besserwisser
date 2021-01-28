@@ -79,7 +79,7 @@ export class GameService {
 
   updateGameStatus(status: number, gameId: number): Observable<any> {
     this.setHeaders(this.userService.token);
-    return this.http.post<any>(this.serverUrl + 'gameplay/' + 'status', {status: status, id: gameId}, this.httpOptionsObject);
+    return this.http.post<any>(this.serverUrl + this.gameplayUrl + '/status', {status: status, id: gameId}, this.httpOptionsObject);
   }
 
 }

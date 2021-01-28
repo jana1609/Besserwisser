@@ -12,7 +12,7 @@
         <div class="bw-flex-row">
           <mat-form-field class="bw-flex-grow bw-dropdown-anchor">
             <mat-label>Spieler</mat-label>
-            <input #playerSearch class="bw-search-input" (input)="searchForUsersByName(playerSearch.value)" matInput />
+            <input #playerSearch class="bw-search-input" (input)="searchForUsersByName(playerSearch.value)" matInput autocomplete="off"/>
             <div class="bw-search-dropdown">
               <a *ngFor="let user of searchedUsers$ | async" (click)="addUserToNewGameById(user.id)">{{user.name}}</a>
             </div>
@@ -53,26 +53,14 @@
     <mat-divider></mat-divider>
 
     <div *ngFor="let game of games">
-      <mat-card  class="bw-card bw-card-maxwidth" *ngIf="game.currentPlayerId === user.id && game.status == 1">
+      <mat-card  class="bw-card bw-card-maxwidth" *ngIf="game.finished === false">
         <mat-card-title>Spieler</mat-card-title>
         <mat-card-content><span *ngFor="let user of game.users">{{user.name}} </span></mat-card-content>
         <mat-card-title>Kategorien:</mat-card-title>
         <mat-card-content><span *ngFor="let cat of game.categories">{{cat}} </span></mat-card-content>
         <mat-card-actions class="section-buttons">
-          <a mat-raised-button color="primary" routerLink="/game" routerLinkActive="active">Weiterspielen</a>
+          <a mat-raised-button color="primary" [routerLink]="['/game', game.id]" routerLinkActive="active">Weiterspielen</a>
         </mat-card-actions>
-      </mat-card>
-    </div>
-
-    <div class="bw-header">Spiele, in denen jemand anders am Zug ist</div>
-    <mat-divider></mat-divider>
-
-    <div *ngFor="let game of games">
-      <mat-card  class="bw-card bw-card-maxwidth" *ngIf="game.currentPlayerId !== user.id && game.status == 1">
-        <mat-card-title>Spieler</mat-card-title>
-        <mat-card-content><span *ngFor="let user of game.users">{{user.name}} </span></mat-card-content>
-        <mat-card-title>Kategorien:</mat-card-title>
-        <mat-card-content><span *ngFor="let cat of game.categories">{{cat}} </span></mat-card-content>
       </mat-card>
     </div>
 
