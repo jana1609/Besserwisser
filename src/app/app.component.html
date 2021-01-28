@@ -5,9 +5,11 @@
     <span style="color: white"> Besserwisser</span>
   </div>
   <div id="right">
-    <button *ngIf="!loggedIn" mat-flat-button color="primary" routerLink="/login">Login/Register</button>
-    <button *ngIf="loggedIn" mat-flat-button color="primary" routerLink="/profile">Profile</button>
-    <button *ngIf="loggedIn" mat-flat-button color="primary" (click)="logout()">Logout</button>
+    <button *ngIf="!userService.loggedIn" mat-flat-button color="primary" routerLink="/login">Login/Register</button>
+    <button *ngIf="userService.loggedIn" mat-flat-button color="primary" routerLink="/dashboard">Dashboard</button>
+    <button *ngIf="userService.loggedIn" mat-flat-button color="primary" routerLink="/friends">Friends</button>
+    <button *ngIf="userService.loggedIn" mat-flat-button color="primary" routerLink="/profile">Profile</button>
+    <button *ngIf="userService.loggedIn" mat-flat-button color="primary" (click)="logout()">Logout</button>
   </div>
 </mat-toolbar>
 

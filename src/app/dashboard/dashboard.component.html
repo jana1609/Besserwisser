@@ -2,8 +2,7 @@
 
 <div class="bw-page">
 
-
-  <div class="content-area" *ngIf="user">
+  <div *ngIf="user">
 
     <!---  TODO -->
     <div class="bw-header">Spiel erstellen</div>
@@ -38,11 +37,11 @@
       <div class="bw-header">Spieleinladungen</div>
       <mat-divider></mat-divider>
       <div *ngFor="let invite of invites">
-        <mat-card class="bw-card bw-flex-row" *ngIf="user.id == invite.userId">
+        <mat-card class="bw-card bw-flex-row">
           <span class="bw-flex-grow">
             <div class="bw-invite-header">Neue Spieleinladung:</div>
             <div class="bw-invite-subheader">Spieler: {{invite.names.toString()}}</div>
-            <div class="bw-invite-subheader">Kategorien: {{invite.categories[invite.categories.length-1]}}</div>
+            <div class="bw-invite-subheader">Kategorien: {{invite.categories.toString()}}</div>
           </span>
           <a mat-raised-button color="primary" class="bw-button" (click)="acceptInvite(invite.id)">Annehmen</a>
           <a mat-raised-button color="secondary" class="bw-button" (click)="declineInvite(invite.id)">Ablehnen</a>
@@ -90,8 +89,8 @@
     </div>
   </div>
 
-  <div *ngIf="!user">
-    Whoops. Something went wrong. <a routerLink="/home">Back to home.</a>
+  <div *ngIf="!user" class="bw-error">
+    Whoops. Something went wrong. <a routerLink="/">Back to home.</a>
   </div>
 
 </div>

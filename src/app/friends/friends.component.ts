@@ -14,15 +14,15 @@ export class FriendsComponent implements OnInit {
 
   searchedUsers$: Observable<User[]>;
   private searchTerms = new Subject<string>();
-  friendRequests: FriendRequest[];
-  friends: User[];
+  friendRequests: FriendRequest[] = [];
+  friends: User[] = [];
   user: User;
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.user = this.userService.loggedIn;
-    if (!this.user){
+    if (this.user){
       this.updateFriendRequests();
       this.updateFriends();
     }
@@ -50,19 +50,28 @@ export class FriendsComponent implements OnInit {
   }
 
   sendFriendRequestByName(name: string): void{
-    this.userService.sendFriendRequestByName(name).subscribe(); // TODO: Callback from request sent
+    this.userService.sendFriendRequestByName(name).subscribe();
   }
 
   sendFriendRequestById(id: number): void{
-    this.userService.sendFriendRequestById(id).subscribe(); // TODO: Callback from request sent
+    this.userService.sendFriendRequestById(id).subscribe();
   }
 
   acceptFriendRequest(id: number): void{
-    this.userService.acceptFriendRequest(id).subscribe(result => this.removeFriendRequestFromList(result.id));
+    this.userService.acceptFriendRequest(id).subscribe(result =>  {
+      this.removeFriendRequestFromList(result.id);
+      this.addFriendToList(result);
+    });
   }
 
   declineFriendRequest(id: number): void{
-    this.userService.declineFriendRequest(id).subscribe(result => this.removeFriendRequestFromList(result.id));
+    this.userService.declineFriendRequest(id).subscribe(result => {
+      this.removeFriendRequestFromList(result.id);
+    });
+  }
+
+  addFriendToList(request: FriendRequest): void{
+    this.friends.push(request.sender);
   }
 
   removeFriendRequestFromList(id: number): void{

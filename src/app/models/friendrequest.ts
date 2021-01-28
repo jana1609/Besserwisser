@@ -4,4 +4,5 @@ export interface FriendRequest{
   id: number;
   sender: User;
   receiverId: number;
+  status: number;
 }

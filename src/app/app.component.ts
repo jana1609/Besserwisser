@@ -9,14 +9,13 @@ import {UserService} from './user.service';
 })
 export class AppComponent {
   title = 'Besserwisser';
-  loggedIn = false;
 
-  constructor(private router: Router, private userService: UserService) {
+  constructor(private router: Router, public userService: UserService) {
   }
 
-  logout(){
-    this.loggedIn = false;
-    this.userService.setToken("");
+  logout(): void{
+    this.userService.setToken('');
+    this.userService.setLoggedIn(undefined);
     this.router.navigateByUrl('/startpage');
   }
 

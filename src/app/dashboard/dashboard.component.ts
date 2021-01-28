@@ -92,7 +92,6 @@ export class DashboardComponent implements OnInit {
   }
 
   createNewGame(): void{
-    console.log(this.categories);
     if (this.selectedUsers.length > 0) {
       const playerIds: number[] = [];
       playerIds.push(this.user.id);
