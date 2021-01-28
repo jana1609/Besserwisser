@@ -35,7 +35,6 @@ export class UserService {
     this.setToken(initialJwt, false);
   }
 
-
   searchForFriendsAndUsers(term: string): Observable<User[]> {
     return this.http.get<User[]>(this.serverUrl + this.userUrl + this.searchUrl + '/' + term, this.httpOptions);
   }

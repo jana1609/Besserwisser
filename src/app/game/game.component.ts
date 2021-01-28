@@ -20,10 +20,12 @@ export class GameComponent implements OnInit {
   //Counter
   questionCount: number;
   questionCountUi: number;
+  categoryCount: number;
 
   //all Questions and Answers
   categoryName: string;
   questions;
+  categories;
 
   //current Question and Answers
   questionText: string;
@@ -58,17 +60,23 @@ export class GameComponent implements OnInit {
   }
 
   loadQuestions(){
+    //this.gameService.setQuestions(this.gameId).subscribe(res => {console.log("question set worked");}, err => {console.log("questions set ERROR");});
     this.gameService.getQuestions(this.gameId).subscribe(res => {
-      this.questions = JSON.parse(res.questions);
-      this.questionCount = res.numberQuestions;
+      console.log(res.categoriesInJson);
+      this.categories = JSON.parse(res.categoriesInJson);
+      
+      //this.questions = JSON.parse(res.questions);
+      this.questionCount = 3;
       this.categoryName = res.categoryName;
+      this.categoryCount = res.numberCategories;
       this.questionCountUi = 0; // Arrays fangen mit wert 0 an, deswegen einfachheitshalber auch counter bei 0 anfangen
       this.scored = 0;
       /*this.gameService.updateGameStatus(1, this.gameId).subscribe(res => {
       }, error => {
       });*/
-      this.showQuestion();
+      this.showQuestion(this.questionCount -1, this.categoryCount -1);
     }, err => {
+      console.log(err.message);
       this.everythingOK = false;
     });
   }
@@ -92,23 +100,32 @@ export class GameComponent implements OnInit {
   //Method to continue -> either next question or dashboard
 
   continue() {
-    if (this.questionCount > 0) {
-      // reset UI
-      this.clicked = false;
-      this.showWrong = -1;
-      // show next question
-      this.showQuestion();
-    } else {
-      this.gameService.updateGameStatus(2, this.gameId).subscribe(res => {
-      }, error => {
-      });
-      this.route.navigateByUrl('/dashboard');
-    }
+  
+      if(this.categoryCount > 0 && this.questionCount > 0){
+        this.clicked = false;
+        this.showWrong = -1;
+        this.showQuestion(this.questionCount -1, this.categoryCount -1);    
+      }
+      else{
+        if(this.questionCount === 0 && this.categoryCount > 0){
+          this.categoryCount--;
+          this.questionCount = 3
+        }else{
+          this.gameService.updateGameStatus(2, this.gameId).subscribe(res => {
+          }, error => {
+          });
+          window.alert('Erreichte Punkte: ' + this.scored + 'pkt');
+          this.route.navigateByUrl('/dashboard');
+        }
+        
+      }
+     
+    
   }
 
-  showQuestion() {
+  showQuestion(question: number, category: number) {
     console.log('show Question');
-    let currentQuestion = this.questions[this.questionCountUi];
+    let currentQuestion = this.categories[category].questions[question];
     console.log('current question: ' + currentQuestion);
     this.questionText = currentQuestion.text;
     console.log('text: ' + this.questionText);

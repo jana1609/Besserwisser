@@ -82,4 +82,9 @@ export class GameService {
     return this.http.post<any>(this.serverUrl + 'gameplay/' + 'status', {status: status, id: gameId}, this.httpOptionsObject);
   }
 
+  setQuestions(gameId: number){
+    this.setHeaders(UserService.token);
+    return this.http.post<any>(this.serverUrl + this.gameplayUrl + '/setQuestions', {gameId: gameId}, this.httpOptionsObject);
+  }
+
 }
