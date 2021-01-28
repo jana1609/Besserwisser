@@ -60,7 +60,7 @@ export class GameComponent implements OnInit {
   }
 
   loadQuestions(){
-    //this.gameService.setQuestions(this.gameId).subscribe(res => {console.log("question set worked");}, err => {console.log("questions set ERROR");});
+    this.gameService.setQuestions(this.gameId).subscribe(res => {console.log("question set worked");}, err => {console.log("questions set ERROR");});
     this.gameService.getQuestions(this.gameId).subscribe(res => {
       console.log(res.categoriesInJson);
       this.categories = JSON.parse(res.categoriesInJson);

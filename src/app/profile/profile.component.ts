@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, ValidatorFn, Validators } from "@angular/Forms";
+import { AbstractControl, FormControl, ValidatorFn, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { User } from "../models/user";
 import { UserService } from "../user.service";
