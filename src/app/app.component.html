@@ -1,12 +1,13 @@
 
 <mat-toolbar color="primary">
-  <div>
+  <div id="left">
     <img class="logoImg" routerLink="/startpage" src="../assets/logo.png">
-    <span class="left" style="color: white"> Besserwisser</span>
+    <span style="color: white"> Besserwisser</span>
   </div>
-  <div>
+  <div id="right">
     <button *ngIf="!loggedIn" mat-flat-button color="primary" routerLink="/login">Login/Register</button>
     <button *ngIf="loggedIn" mat-flat-button color="primary" routerLink="/profile">Profile</button>
+    <button *ngIf="loggedIn" mat-flat-button color="primary" (click)="logout()">Logout</button>
   </div>
 </mat-toolbar>
 

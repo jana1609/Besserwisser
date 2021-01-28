@@ -1,7 +1,8 @@
-import { DeclareVarStmt } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
-
-import { questions } from '../questions';
+import {DeclareVarStmt} from '@angular/compiler';
+import {Component, OnInit} from '@angular/core';
+import {isObservable} from 'rxjs/internal-compatibility';
+import {ActivatedRoute, Router} from '@angular/router';
+import {GameService} from '../game.service';
 
 
 @Component({
@@ -11,85 +12,113 @@ import { questions } from '../questions';
 })
 export class GameComponent implements OnInit {
 
-  questions = questions;
-  
-  score(){
+  //Definition for game elements
 
-    var score: number = 0;
-   
-    /*Notes:
-    - Iterating through Divs created by *NgFor?
-    - Iterating with forEach or fori
-    - var count = true -> to run an if-statement only once -> set false after statement 
-    - document.getElementsByName('answer') -> Problems with parsing as HTMLInputElement -> without no .checked
-      - Can't iterate through it because of it -> if it is possible -> if(a[i].checked && a.value == true){score++;}
-    */ 
+  everythingOK = true;
+  gameId = 1;
 
-    //Checked not available - maybe multiple radio buttons causing the error 
+  //Counter
+  questionCount: number;
+  questionCountUi: number;
 
-    //Solution for Demo 
+  //all Questions and Answers
+  categoryName: string;
+  questions;
 
-    var a1 = document.getElementById('a1') as HTMLInputElement;
-    var a2 = document.getElementById('a2') as HTMLInputElement;
-    var a3 = document.getElementById('a3') as HTMLInputElement;
-    var a4 = document.getElementById('a4') as HTMLInputElement;
+  //current Question and Answers
+  questionText: string;
+  answers: string[] = ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4'];
+  correctAnswer: number;
 
-    if (a1.checked && a1.value == 'true'){
-      score++;
-    }
-    if (a2.checked && a2.value == 'true'){
-      score++;
-    }
-    if (a3.checked && a3.value == 'true'){
-      score++;
-    }
-    if (a4.checked && a4.value == 'true'){
-      score++;
-    }
-  
-    var a5 = document.getElementById('a5') as HTMLInputElement;
-    var a6 = document.getElementById('a6') as HTMLInputElement;
-    var a7 = document.getElementById('a7') as HTMLInputElement;
-    var a8 = document.getElementById('a8') as HTMLInputElement;
+  //current user input
+  clicked: boolean = false;         // gibt an ob schon eine antwort ausgewählt wurde
+  clickedCorrect: boolean = false;  // gibt an ob die ausgewählte antwort correct ist
+  showWrong: number = -1;           // gibt die antwortnummer an wenn falsch geklickt wurde, ums rot darzustellen
 
-    if (a5.checked && a5.value == 'true'){
-      score++;
-    }
-    if (a6.checked && a6.value == 'true'){
-      score++;
-    }
-    if (a7.checked && a7.value == 'true'){
-      score++;
-    }
-    if (a8.checked && a8.value == 'true'){
-      score++;
-    }
-  
-    var a9 = document.getElementById('a9') as HTMLInputElement;
-    var a10 = document.getElementById('a10') as HTMLInputElement;
-    var a11 = document.getElementById('a11') as HTMLInputElement;
-    var a12 = document.getElementById('a12') as HTMLInputElement;
+  //total user results
+  userResult: boolean[] = [false, false, false, false];
+  scored: number;
 
-    if (a9.checked && a9.value == 'true'){
-      score++;
-    }
-    if (a10.checked && a10.value == 'true'){
-      score++;
-    }
-    if (a11.checked && a11.value == 'true'){
-      score++;
-    }
-    if (a12.checked && a12.value == 'true'){
-      score++;
-    }
-  
-    window.alert('Your score: ' +score);
-   
+  constructor(private route: Router, private gameService: GameService, private activatedRoute: ActivatedRoute) {
+    this.everythingOK = true;
+    this.activatedRoute.queryParams.subscribe(params => {
+      let gameId = params['gameId'];
+      if (gameId == undefined) {}
+      else {
+        this.gameId = params['gameId'];
+
+      }
+      console.log('id: ' + this.gameId);
+    });
+
   }
 
-  constructor() { }
-
   ngOnInit(): void {
+    this.loadQuestions();
+  }
+
+  loadQuestions(){
+    this.gameService.getQuestions(this.gameId).subscribe(res => {
+      this.questions = JSON.parse(res.questions);
+      this.questionCount = res.numberQuestions;
+      this.categoryName = res.categoryName;
+      this.questionCountUi = 0; // Arrays fangen mit wert 0 an, deswegen einfachheitshalber auch counter bei 0 anfangen
+      this.scored = 0;
+      /*this.gameService.updateGameStatus(1, this.gameId).subscribe(res => {
+      }, error => {
+      });*/
+      this.showQuestion();
+    }, err => {
+      this.everythingOK = false;
+    });
+  }
+
+  //Method to lock in the answer
+
+  score(answer: number) {
+    let clickedAnswer = answer;
+    this.clicked = true;
+    this.clickedCorrect = (clickedAnswer == this.correctAnswer);
+    if (!this.clickedCorrect) {
+      this.showWrong = clickedAnswer;
+    } else {
+      this.scored++;
+      this.userResult[this.questionCountUi] = true;
+    }
+    this.questionCount--;
+    this.questionCountUi++;
+  }
+
+  //Method to continue -> either next question or dashboard
+
+  continue() {
+    if (this.questionCount > 0) {
+      // reset UI
+      this.clicked = false;
+      this.showWrong = -1;
+      // show next question
+      this.showQuestion();
+    } else {
+      this.gameService.updateGameStatus(2, this.gameId).subscribe(res => {
+      }, error => {
+      });
+      this.route.navigateByUrl('/dashboard');
+    }
+  }
+
+  showQuestion() {
+    console.log('show Question');
+    let currentQuestion = this.questions[this.questionCountUi];
+    console.log('current question: ' + currentQuestion);
+    this.questionText = currentQuestion.text;
+    console.log('text: ' + this.questionText);
+    for (let i = 0; i < 4; i++) {
+      this.answers[i] = currentQuestion.answers[i+1];
+    }
+    console.log(this.answers);
+    this.correctAnswer = currentQuestion.correct-1;
+    console.log(this.correctAnswer);
   }
 
 }
+

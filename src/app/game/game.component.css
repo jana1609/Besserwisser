@@ -1,28 +1,47 @@
-h2 {
-    text-align: center;
-    background-color: lightgray;
-    width: 50%;
-    border-radius: 20px;
-    margin: 10px;
+.game-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
 }
-h3{
-    text-align: center;
-    background-color: lightgray;
-    width: 50%;
-    border-radius: 20px;
-    margin: 10px;
+
+.game-radio-button {
+  margin: 5px;
 }
-form {
-    align-items: center;
-    margin: auto;
-    width: 60%;
-    padding: 10px;
+
+.game-card {
+  padding-top: 20px;
 }
-.container{
-    text-align: center;
+
+.container {
+  padding-top: 20px;
 }
-button{
-    font-size: 20px;
-    margin: auto;
-    
+
+mat-grid-list {
+  width: 600px;
+}
+
+mat-grid-tile button {
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+  background-color: #6bc5c2;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-title {
+  display: flex;
+  justify-content: center;
+}
+
+mat-card-subtitle {
+  display: flex;
+  justify-content: center;
+}
+
+mat-card-content {
+  display: flex;
+  justify-content: center;
 }

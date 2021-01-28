@@ -40,7 +40,6 @@ const routes: Routes = [
     GameComponent,
     StartpageComponent,
     FriendsComponent
-
   ],
   imports: [
     BrowserModule,
