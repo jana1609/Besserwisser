@@ -9,16 +9,16 @@ import {FriendRequest} from "./models/friendrequest";
 })
 export class UserService {
 
-  private serverUrl = 'https://besserwisser.herokuapp.com/';
-  private userUrl = 'user/';
-  private searchUrl = 'search/';
-  private loginUrl = 'login/';
-  private registerUrl = 'register';
-  private friendsUrl = 'friends/';
-  private friendrequestUrl = 'request/';
+  private serverUrl = 'https://besserwisser.herokuapp.com';
+  private userUrl = '/user';
+  private searchUrl = '/search';
+  private loginUrl = '/login';
+  private registerUrl = '/register';
+  private friendsUrl = '/friends';
+  private friendrequestUrl = '/request';
 
-  token: string = ""; // Use for authentication later
-  loggedIn: User = {id: 1, name: 'user1'};
+  token = ''; // Use for authentication later
+  loggedIn: User;
 
   httpOptionsObject = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -30,9 +30,10 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  searchForFriendsAndUsers(term: string): Observable<User[]>{
+  searchForFriendsAndUsers(term: string): Observable<User[]> {
     return this.http.get<User[]>(this.serverUrl + this.userUrl + this.searchUrl + term, this.httpOptions);
-    
+  }
+
   private setHeaders(token: string): void{
     this.httpOptionsObject = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': token })
@@ -42,28 +43,33 @@ export class UserService {
     };
   }
 
-  loginUser(u, p):any {
+  loginUser(u, p): Observable<any>{
     return this.http.post<any>(this.serverUrl + this.loginUrl, {username: u, password: p});
   }
 
-  addUser(u, p){
+  addUser(u, p): Observable<any>{
     return this.http.post<any>(this.serverUrl + this.registerUrl,{username: u, password: p}, this.httpOptionsObject);
   }
 
-  setToken(newToken){
+  setToken(newToken): void{
     this.token = newToken;
+    this.setHeaders(newToken);
+  }
+
+  setLoggedIn(user: User): void{
+    this.loggedIn = user;
   }
 
   searchForUsers(term: string): Observable<User[]>{
-    return this.http.get<User[]>(this.serverUrl + this.friendsUrl + term, this.httpOptions);
+    return this.http.get<User[]>(this.serverUrl + this.friendsUrl + '/' + term, this.httpOptions);
   }
 
   getUserById(id: number): Observable<User>{
-    return this.http.get<User>(this.serverUrl + this.userUrl + id, this.httpOptions);
+    return this.http.get<User>(this.serverUrl + this.userUrl + '?id=' + id, this.httpOptions);
   }
 
   getUserByName(name: string): Observable<User>{
-    return this.http.get<User>(this.serverUrl + this.userUrl + name, this.httpOptions);
+    return this.http.get<User>(this.serverUrl + this.userUrl + '?name=' + name, this.httpOptions);
   }
 
   getFriends(): Observable<User[]>{
@@ -71,7 +77,7 @@ export class UserService {
   }
 
   deleteFriend(id: number): Observable<User>{
-    return this.http.delete<User>(this.serverUrl + this.friendsUrl + id, this.httpOptions);
+    return this.http.delete<User>(this.serverUrl + this.friendsUrl + '/' + id, this.httpOptions);
   }
 
   getFriendRequests(): Observable<FriendRequest[]>{
@@ -87,11 +93,11 @@ export class UserService {
   }
 
   acceptFriendRequest(id: number): Observable<FriendRequest> {
-    return this.http.put<FriendRequest>(this.serverUrl + this.friendsUrl + this.friendrequestUrl + id, { status: 1 }, this.httpOptionsObject);
+    return this.http.put<FriendRequest>(this.serverUrl + this.friendsUrl + this.friendrequestUrl + '/' + id, { status: 1 }, this.httpOptionsObject);
   }
 
   declineFriendRequest(id: number): Observable<FriendRequest> {
-    return this.http.put<FriendRequest>(this.serverUrl + this.friendsUrl + this.friendrequestUrl + id, { status: -1 }, this.httpOptionsObject);
+    return this.http.put<FriendRequest>(this.serverUrl + this.friendsUrl + this.friendrequestUrl + '/' + id, { status: -1 }, this.httpOptionsObject);
   }
 
 }

@@ -12,11 +12,11 @@ import {Category} from './models/category';
 })
 export class GameService {
 
-  private serverUrl = 'https://besserwisser.herokuapp.com/';
-  private inviteUrl = 'invite/';
-  private gameUrl = 'game/';
-  private categoriesUrl = 'categories/';
-  private gameplayUrl = 'gameplay/';
+  private serverUrl = 'https://besserwisser.herokuapp.com';
+  private inviteUrl = '/invite/';
+  private gameUrl = '/game';
+  private categoriesUrl = '/categories';
+  private gameplayUrl = '/gameplay';
 
   private httpOptionsObject = {
     headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.userService.token})
@@ -57,15 +57,15 @@ export class GameService {
   }
 
   acceptInvite(id: number): Observable<InviteRes> {
-    return this.http.put<InviteRes>(this.serverUrl + this.inviteUrl + id, { status: 1 }, this.userService.httpOptionsObject);
+    return this.http.put<InviteRes>(this.serverUrl + this.inviteUrl + '/' + id, { status: 1 }, this.userService.httpOptionsObject);
   }
 
   declineInvite(id: number): Observable<InviteRes> {
-    return this.http.put<InviteRes>(this.serverUrl + this.inviteUrl + id, { status: -1 }, this.userService.httpOptionsObject);
+    return this.http.put<InviteRes>(this.serverUrl + this.inviteUrl + '/' + id, { status: -1 }, this.userService.httpOptionsObject);
   }
 
   getGame(id: number): Observable<Game>{
-    return this.http.get<Game>(this.serverUrl + this.gameUrl + id, this.userService.httpOptions);
+    return this.http.get<Game>(this.serverUrl + this.gameUrl + '/' + id, this.userService.httpOptions);
   }
 
   createNewGame(ids: number[], categories: number[]): Observable<Game>{
