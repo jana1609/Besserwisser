@@ -32,6 +32,7 @@ export class UserService {
 
   searchForFriendsAndUsers(term: string): Observable<User[]>{
     return this.http.get<User[]>(this.serverUrl + this.userUrl + this.searchUrl + term, this.httpOptions);
+  }
     
   private setHeaders(token: string): void{
     this.httpOptionsObject = {
