@@ -13,7 +13,7 @@ import {Category} from './models/category';
 export class GameService {
 
   private serverUrl = 'https://besserwisser.herokuapp.com';
-  private inviteUrl = '/invite/';
+  private inviteUrl = '/invite';
   private gameUrl = '/game';
   private categoriesUrl = '/categories';
   private gameplayUrl = '/gameplay';

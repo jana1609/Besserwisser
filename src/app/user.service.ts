@@ -61,7 +61,7 @@ export class UserService {
   }
 
   searchForUsers(term: string): Observable<User[]>{
-    return this.http.get<User[]>(this.serverUrl + this.friendsUrl + '/' + term, this.httpOptions);
+    return this.http.get<User[]>(this.serverUrl + this.friendsUrl + this.searchUrl + '/' + term, this.httpOptions);
   }
 
   getUserById(id: number): Observable<User>{

@@ -37,11 +37,11 @@
       <div class="bw-header">Spieleinladungen</div>
       <mat-divider></mat-divider>
       <div *ngFor="let invite of invites">
-        <mat-card class="bw-card bw-flex-row" *ngIf="user.id == invite.userId">
+        <mat-card class="bw-card bw-flex-row">
           <span class="bw-flex-grow">
             <div class="bw-invite-header">Neue Spieleinladung:</div>
             <div class="bw-invite-subheader">Spieler: {{invite.names.toString()}}</div>
-            <div class="bw-invite-subheader">Kategorien: {{invite.categories[invite.categories.length-1]}}</div>
+            <div class="bw-invite-subheader">Kategorien: {{invite.categories.toString()}}</div>
           </span>
           <a mat-raised-button color="primary" class="bw-button" (click)="acceptInvite(invite.id)">Annehmen</a>
           <a mat-raised-button color="secondary" class="bw-button" (click)="declineInvite(invite.id)">Ablehnen</a>

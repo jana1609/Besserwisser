@@ -32,7 +32,7 @@
     <div class="bw-header">Freunde</div>
     <mat-divider></mat-divider>
     <mat-card class="bw-card">
-      <div *ngIf="friends && friends.length === 0">
+      <div *ngIf="!friends || friends.length === 0">
         Deine Freundesliste ist derzeit noch leer.
       </div>
       <div class="bw-flex-row bw-friend" *ngFor="let friend of friends">
