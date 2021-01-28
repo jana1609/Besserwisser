@@ -16,6 +16,7 @@ import { HttpClientModule} from '@angular/common/http';
 import { ProfileComponent } from './profile/profile.component';
 import { GameComponent } from './game/game.component';
 import { StartpageComponent } from './startpage/startpage.component';
+import { FriendsComponent } from './friends/friends.component';
 
 
 const routes: Routes = [
@@ -23,9 +24,10 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'dashboard', component: DashboardComponent},
   { path: '', redirectTo: '/startpage', pathMatch: 'full'},
-  {path: 'profile', component:ProfileComponent},
+  {path: 'profile', component: ProfileComponent},
   {path: 'game', component: GameComponent},
-  {path: 'startpage', component: StartpageComponent}
+  {path: 'startpage', component: StartpageComponent},
+  {path: 'friends', component: FriendsComponent}
   ];
 
 @NgModule({
@@ -37,6 +39,7 @@ const routes: Routes = [
     ProfileComponent,
     GameComponent,
     StartpageComponent,
+    FriendsComponent
   ],
   imports: [
     BrowserModule,

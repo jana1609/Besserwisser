@@ -14,63 +14,41 @@
   margin: 10px;
 }
 
-.bw-button{
-  margin-left: 5px;
-  flex-shrink: 0;
-}
-
-.bw-card-maxwidth{
-  max-width: 450px;
-}
-
 .bw-flex-row{
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.bw-flex-row-stretch{
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-}
-
-.bw-flex-column{
-  display: flex;
-  flex-direction: column;
-}
-
 .bw-flex-grow{
   flex-grow: 1;
 }
 
-.bw-divider-vertical{
-  box-sizing: border-box;
-  width: 1px;
-  background-color: #ccc;
-  margin: 0px 10px;
+.bw-button{
+  margin-left: 5px;
+  flex-shrink: 0;
 }
 
-.bw-new-game {
-  height: 150px;
+.bw-friend{
+  height: 36px;
+  padding: 5px;
+  border-radius: 5px;
 }
 
-.bw-invite-header{
-  font-weight: 500;
-  font-size: 18px;
+.bw-friend:hover {
+  background-color: #e6e6e6;
 }
 
-.bw-invite-subheader{
-  font-weight: 400;
-  font-size: 16px;
-  margin: 2px 0px;
+.bw-delete{
+  display: none;
 }
 
+.bw-friend:hover .bw-delete{
+  display: block;
+}
 
-/*----*/
-
-.bw-add-player{
-  margin-left: 10px;
+.bw-dropdown-anchor{
+  position: relative;
 }
 
 .bw-search-dropdown{
@@ -103,18 +81,4 @@
 
 .bw-search-input:focus + .bw-search-dropdown, .bw-search-dropdown:hover{
   display: block;
-}
-
-.bw-player{
-  padding: 5px 15px;
-  border-radius: 25px;
-  background-color: #f5f5f5;
-  border: solid 1px #ccc;
-  margin-right: 10px;
-}
-
-.bw-player:hover{
-  background-color: #ce0026;
-  cursor: pointer;
-  color: white;
 }
